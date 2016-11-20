@@ -132,3 +132,24 @@ ScreenXmlXlsFiles <- function(fileList = list()){
     return(tibble::as_data_frame(singleDataFrame));
   }
 }
+#' Title  TraceXmlXlsToCsv
+#'
+#' @param aTibble 
+#' @param filePath 
+#'
+#' @return logical
+#' @export TBD
+#'
+#' @examples TBD
+TraceXmlXlsToCsv <- function(aTibble = data.frame(NULL), filePath = ""){
+  
+  if (is.null(aTibble)) {
+    
+    return(FALSE);
+  } else {
+    aTibble <- aTibble[!grepl("^2016", aTibble$SqlTrace),];
+    write.csv(aTibble, file = "filePath");
+    
+    return(TRUE);
+  }
+}
