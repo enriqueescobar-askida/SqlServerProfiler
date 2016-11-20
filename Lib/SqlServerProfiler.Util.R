@@ -72,24 +72,32 @@ IsEvenInteger <- function(aInt = 0) {
   return(boo);
 }
 library(data.table);
+#' Title  TrimXmlXlsToTibble
+#'
+#' @param aTibble 
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
 TrimXmlXlsToTibble <- function(aTibble = NULL) {
-
-  if (IsEvenInteger(nrow(aTibble))) {
-   
-     return(aTibble);
-  } else {
   nbLines <- nrow(aTibble);
-
-    if (IsConvertibleToDate(aTibble[[nbLines,]])) {
-      print("mockway");
-      #return(aTibble[-1,]);
+  aDataFr <- data.frame(NULL);
+  count <- 0;
+  for (aLine in seq(nbLines))
+  {
+    if (IsConvertibleToDate(aTibble[[aLine,]])) {
     } else {
-      print("gremlin");
-      #return(aTibble);
+      count<-count+1;
+      aString <- as.character(aTibble[[aLine,]]);
+      print(aString);
+      aDataFr <- rbind(aDataFr, aString);
     }
-  #     return(aTibble[-1,]);
-  #   }
   }
+  colnames(aDataFr) <- c("SqlTrace");
+  aDataFr <- data.frame(lapply(aDataFr, as.character), stringsAsFactors = FALSE);
+  print(count);
+  return(tibble::as_data_frame(aDataFr));
 }
 #' Title  ScreenXmlXlsFiles
 #'
@@ -118,34 +126,9 @@ ScreenXmlXlsFiles <- function(fileList = list()){
         singleDataFrame <- rbind(singleDataFrame, aDf);
       }
     }
-    
     singleDataFrame <- data.frame(lapply(singleDataFrame, as.character), stringsAsFactors = FALSE);
+    colnames(singleDataFrame) <- c("SqlTrace");
     
     return(tibble::as_data_frame(singleDataFrame));
-  }
-}
-TraceXmlXlsToCharacter <- function(aTibble = NULL) {
-  
-  if (is.null(aTibble)) {
-    
-    return(NULL);
-  } else {
-    nbLines <- nrow(aTibble);
-    aDF <- data.frame(NULL);
-    lastDF <- data.frame(NULL);
-    
-    canConvert <- FALSE;
-    lastConvert <- FALSE;
-    lastSql <- "";
-    lastDate <- Sys.Date();
-    
-    for (rowl in seq(nbLines)) {
-      canConvert <- IsConvertibleToDate(aTibble[[rowl,]]);
-      if (!canConvert) {
-        lastDF$TimeStamp <- NULL;
-        lastDF$Sql <- aTibble[[rowl,]];
-        aDF <- rbind(lastDF);
-      }
-    }
   }
 }
