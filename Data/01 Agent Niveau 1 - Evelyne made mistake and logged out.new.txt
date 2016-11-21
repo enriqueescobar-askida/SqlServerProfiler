@@ -70558,7 +70558,6 @@ set @p5=0
 exec sp_cursoropen @p1 output,N'SELECT * FROM SV000805  WHERE CUSTNMBR = ''CL00189898''  AND ADRSCODE = ''SERVICE''  AND Reference_ID = ''161023-0001'' AND isnumeric(Note_Service_Index) = ''0''',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursoroption 180157773,1,0"
-"exec sp_cursorfetch 180157773,16,1,1"
 exec sp_cursorclose 180157773
 "declare @p1 int
 set @p1=180157775
@@ -70680,8 +70679,6 @@ set @p5=2
 exec sp_cursoropen @p1 output,N'SELECT DISTINCT ID, Name FROM GMP_RESPONSABLEENTRETIEN  ORDER BY ID ',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180157793,16,1,1"
-"exec sp_cursorfetch 180157793,16,2,1"
-"exec sp_cursorfetch 180157793,16,3,1"
 "declare @p1 int
 set @p1=180157795
 declare @p3 int
@@ -70693,10 +70690,6 @@ set @p5=4
 exec sp_cursoropen @p1 output,N'SELECT DISTINCT Task_Status  FROM SV00324',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180157795,16,1,1"
-"exec sp_cursorfetch 180157795,16,2,1"
-"exec sp_cursorfetch 180157795,16,3,1"
-"exec sp_cursorfetch 180157795,16,4,1"
-"exec sp_cursorfetch 180157795,16,5,1"
 "declare @p1 int
 set @p1=180157797
 declare @p3 int
@@ -70734,8 +70727,6 @@ set @p5=4
 exec sp_cursoropen @p1 output,N'SELECT * FROM HS_Tache  WHERE HS_Tache.Service_Call_ID = ''161023-0001''  ORDER BY HS_Tache.Task_Line_Number ',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180157801,16,1,1"
-"exec sp_cursorfetch 180157801,16,1,5"
-"exec sp_cursorfetch 180157801,16,5,5"
 "declare @p1 int
 set @p1=180157803
 declare @p3 int
@@ -70992,11 +70983,6 @@ declare @p5 int
 set @p5=5
 exec sp_cursoropen @p1 output,N' select * from GMP_TYPE_PHONE  ORDER BY Type_Phone_ID ',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
-"exec sp_cursorfetch 180157841,16,1,1"
-"exec sp_cursorfetch 180157841,16,2,1"
-"exec sp_cursorfetch 180157841,16,3,1"
-"exec sp_cursorfetch 180157841,16,4,1"
-"exec sp_cursorfetch 180157841,16,5,1"
 "exec sp_cursorfetch 180157841,16,6,1"
 "declare @p1 int
 set @p1=180157843
@@ -71010,11 +70996,6 @@ exec sp_cursoropen @p1 output,N' select * from GMP_TYPE_PHONE  ORDER BY Type_Pho
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157841
 "exec sp_cursorfetch 180157843,16,1,1"
-"exec sp_cursorfetch 180157843,16,2,1"
-"exec sp_cursorfetch 180157843,16,3,1"
-"exec sp_cursorfetch 180157843,16,4,1"
-"exec sp_cursorfetch 180157843,16,5,1"
-"exec sp_cursorfetch 180157843,16,6,1"
 "declare @p1 int
 set @p1=180157845
 declare @p3 int
@@ -71027,7 +71008,6 @@ exec sp_cursoropen @p1 output,N' SELECT Sub_3 FROM SV00523  ORDER BY DEX_ROW_ID 
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157843
 "exec sp_cursorfetch 180157845,16,1,1"
-"exec sp_cursorfetch 180157845,16,2,1"
 "declare @p1 int
 set @p1=180157847
 declare @p3 int
@@ -71040,13 +71020,6 @@ exec sp_cursoropen @p1 output,N'SELECT DISTINCT SourceID, Description  FROM GMP_
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157845
 "exec sp_cursorfetch 180157847,16,1,1"
-"exec sp_cursorfetch 180157847,16,2,1"
-"exec sp_cursorfetch 180157847,16,3,1"
-"exec sp_cursorfetch 180157847,16,4,1"
-"exec sp_cursorfetch 180157847,16,5,1"
-"exec sp_cursorfetch 180157847,16,6,1"
-"exec sp_cursorfetch 180157847,16,7,1"
-"exec sp_cursorfetch 180157847,16,8,1"
 "declare @p1 int
 set @p1=180157849
 declare @p3 int
@@ -71059,12 +71032,6 @@ exec sp_cursoropen @p1 output,N'  select distinct PM00200.VENDORID,VENDNAME from
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157847
 "exec sp_cursorfetch 180157849,16,1,1"
-"exec sp_cursorfetch 180157849,16,2,1"
-"exec sp_cursorfetch 180157849,16,3,1"
-"exec sp_cursorfetch 180157849,16,4,1"
-"exec sp_cursorfetch 180157849,16,5,1"
-"exec sp_cursorfetch 180157849,16,6,1"
-"exec sp_cursorfetch 180157849,16,7,1"
 "declare @p1 int
 set @p1=180157851
 declare @p3 int
@@ -71077,11 +71044,6 @@ exec sp_cursoropen @p1 output,N' SELECT Type_Tarif_Service_ID, Type_Tarif_Servic
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157849
 "exec sp_cursorfetch 180157851,16,1,1"
-"exec sp_cursorfetch 180157851,16,2,1"
-"exec sp_cursorfetch 180157851,16,3,1"
-"exec sp_cursorfetch 180157851,16,4,1"
-"exec sp_cursorfetch 180157851,16,5,1"
-"exec sp_cursorfetch 180157851,16,6,1"
 "declare @p1 int
 set @p1=180157853
 declare @p3 int
@@ -71094,9 +71056,6 @@ exec sp_cursoropen @p1 output,N' SELECT Taux_Tarif_Service_ID, Taux_Tarif_Servic
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157851
 "exec sp_cursorfetch 180157853,16,1,1"
-"exec sp_cursorfetch 180157853,16,2,1"
-"exec sp_cursorfetch 180157853,16,3,1"
-"exec sp_cursorfetch 180157853,16,4,1"
 "declare @p1 int
 set @p1=180157855
 declare @p3 int
@@ -71109,8 +71068,6 @@ exec sp_cursoropen @p1 output,N' SELECT Type_Facturable_ID, Type_Facturable_Desc
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157853
 "exec sp_cursorfetch 180157855,16,1,1"
-"exec sp_cursorfetch 180157855,16,2,1"
-"exec sp_cursorfetch 180157855,16,3,1"
 "declare @p1 int
 set @p1=180157857
 declare @p3 int
@@ -71123,11 +71080,6 @@ exec sp_cursoropen @p1 output,N' SELECT RTrim(TypeTarifID) TypeTarifID, RTrim(De
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157855
 "exec sp_cursorfetch 180157857,16,1,1"
-"exec sp_cursorfetch 180157857,16,2,1"
-"exec sp_cursorfetch 180157857,16,3,1"
-"exec sp_cursorfetch 180157857,16,4,1"
-"exec sp_cursorfetch 180157857,16,5,1"
-"exec sp_cursorfetch 180157857,16,6,1"
 "declare @p1 int
 set @p1=180157859
 declare @p3 int
@@ -71139,17 +71091,6 @@ set @p5=11
 exec sp_cursoropen @p1 output,N'SELECT * FROM gmp_Batiment ORDER BY 1',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157857
-"exec sp_cursorfetch 180157859,16,1,1"
-"exec sp_cursorfetch 180157859,16,2,1"
-"exec sp_cursorfetch 180157859,16,3,1"
-"exec sp_cursorfetch 180157859,16,4,1"
-"exec sp_cursorfetch 180157859,16,5,1"
-"exec sp_cursorfetch 180157859,16,6,1"
-"exec sp_cursorfetch 180157859,16,7,1"
-"exec sp_cursorfetch 180157859,16,8,1"
-"exec sp_cursorfetch 180157859,16,9,1"
-"exec sp_cursorfetch 180157859,16,10,1"
-"exec sp_cursorfetch 180157859,16,11,1"
 "exec sp_cursorfetch 180157859,16,12,1"
 "declare @p1 int
 set @p1=180157861
@@ -71163,14 +71104,6 @@ exec sp_cursoropen @p1 output,N'SELECT ID, Description FROM HS_RaisonAnnulation 
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157859
 "exec sp_cursorfetch 180157861,16,1,1"
-"exec sp_cursorfetch 180157861,16,2,1"
-"exec sp_cursorfetch 180157861,16,3,1"
-"exec sp_cursorfetch 180157861,16,4,1"
-"exec sp_cursorfetch 180157861,16,5,1"
-"exec sp_cursorfetch 180157861,16,6,1"
-"exec sp_cursorfetch 180157861,16,7,1"
-"exec sp_cursorfetch 180157861,16,8,1"
-"exec sp_cursorfetch 180157861,16,9,1"
 "declare @p1 int
 set @p1=180157863
 declare @p3 int
@@ -71327,19 +71260,6 @@ set @p5=13
 exec sp_cursoropen @p1 output,N'SELECT DISTINCT Resolution_ID,rtrim(Resolution_Description)as Resolution_Description  FROM SV00394  WHERE (Service_User_Define_5 = ''1''  AND Article_ID= ''487'' )  ORDER BY Resolution_Description ',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180157883,16,1,1"
-"exec sp_cursorfetch 180157883,16,2,1"
-"exec sp_cursorfetch 180157883,16,3,1"
-"exec sp_cursorfetch 180157883,16,4,1"
-"exec sp_cursorfetch 180157883,16,5,1"
-"exec sp_cursorfetch 180157883,16,6,1"
-"exec sp_cursorfetch 180157883,16,7,1"
-"exec sp_cursorfetch 180157883,16,8,1"
-"exec sp_cursorfetch 180157883,16,9,1"
-"exec sp_cursorfetch 180157883,16,10,1"
-"exec sp_cursorfetch 180157883,16,11,1"
-"exec sp_cursorfetch 180157883,16,12,1"
-"exec sp_cursorfetch 180157883,16,13,1"
-"exec sp_cursorfetch 180157883,16,14,1"
 "declare @p1 int
 set @p1=180157885
 declare @p3 int
@@ -71461,11 +71381,6 @@ exec sp_cursoropen @p1 output,N' select * from GMP_TYPE_PHONE  ORDER BY Type_Pho
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157887
 "exec sp_cursorfetch 180157903,16,1,1"
-"exec sp_cursorfetch 180157903,16,2,1"
-"exec sp_cursorfetch 180157903,16,3,1"
-"exec sp_cursorfetch 180157903,16,4,1"
-"exec sp_cursorfetch 180157903,16,5,1"
-"exec sp_cursorfetch 180157903,16,6,1"
 "declare @p1 int
 set @p1=180157905
 declare @p3 int
@@ -71489,11 +71404,6 @@ exec sp_cursoropen @p1 output,N' select * from GMP_TYPE_PHONE  ORDER BY Type_Pho
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157905
 "exec sp_cursorfetch 180157907,16,1,1"
-"exec sp_cursorfetch 180157907,16,2,1"
-"exec sp_cursorfetch 180157907,16,3,1"
-"exec sp_cursorfetch 180157907,16,4,1"
-"exec sp_cursorfetch 180157907,16,5,1"
-"exec sp_cursorfetch 180157907,16,6,1"
 "declare @p1 int
 set @p1=180157909
 declare @p3 int
@@ -71589,11 +71499,6 @@ exec sp_cursoropen @p1 output,N' SELECT DISTINCT User_Define_1a, USERID FROM SV0
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157909
 "exec sp_cursorfetch 180157923,16,1,1"
-"exec sp_cursorfetch 180157923,16,2,1"
-"exec sp_cursorfetch 180157923,16,3,1"
-"exec sp_cursorfetch 180157923,16,4,1"
-"exec sp_cursorfetch 180157923,16,5,1"
-"exec sp_cursorfetch 180157923,16,6,1"
 "declare @p1 int
 set @p1=180157925
 declare @p3 int
@@ -71678,67 +71583,6 @@ exec sp_cursoropen @p1 output,N' SELECT rtrim(SV00310.Type_of_Problem) AS Type_o
 select @p1, @p3, @p4, @p5"
 exec sp_cursorclose 180157923
 "exec sp_cursorfetch 180157937,16,1,1"
-"exec sp_cursorfetch 180157937,16,2,1"
-"exec sp_cursorfetch 180157937,16,3,1"
-"exec sp_cursorfetch 180157937,16,4,1"
-"exec sp_cursorfetch 180157937,16,5,1"
-"exec sp_cursorfetch 180157937,16,6,1"
-"exec sp_cursorfetch 180157937,16,7,1"
-"exec sp_cursorfetch 180157937,16,8,1"
-"exec sp_cursorfetch 180157937,16,9,1"
-"exec sp_cursorfetch 180157937,16,10,1"
-"exec sp_cursorfetch 180157937,16,11,1"
-"exec sp_cursorfetch 180157937,16,12,1"
-"exec sp_cursorfetch 180157937,16,13,1"
-"exec sp_cursorfetch 180157937,16,14,1"
-"exec sp_cursorfetch 180157937,16,15,1"
-"exec sp_cursorfetch 180157937,16,16,1"
-"exec sp_cursorfetch 180157937,16,17,1"
-"exec sp_cursorfetch 180157937,16,18,1"
-"exec sp_cursorfetch 180157937,16,19,1"
-"exec sp_cursorfetch 180157937,16,20,1"
-"exec sp_cursorfetch 180157937,16,21,1"
-"exec sp_cursorfetch 180157937,16,22,1"
-"exec sp_cursorfetch 180157937,16,23,1"
-"exec sp_cursorfetch 180157937,16,24,1"
-"exec sp_cursorfetch 180157937,16,25,1"
-"exec sp_cursorfetch 180157937,16,26,1"
-"exec sp_cursorfetch 180157937,16,27,1"
-"exec sp_cursorfetch 180157937,16,28,1"
-"exec sp_cursorfetch 180157937,16,29,1"
-"exec sp_cursorfetch 180157937,16,30,1"
-"exec sp_cursorfetch 180157937,16,31,1"
-"exec sp_cursorfetch 180157937,16,32,1"
-"exec sp_cursorfetch 180157937,16,33,1"
-"exec sp_cursorfetch 180157937,16,34,1"
-"exec sp_cursorfetch 180157937,16,35,1"
-"exec sp_cursorfetch 180157937,16,36,1"
-"exec sp_cursorfetch 180157937,16,37,1"
-"exec sp_cursorfetch 180157937,16,38,1"
-"exec sp_cursorfetch 180157937,16,39,1"
-"exec sp_cursorfetch 180157937,16,40,1"
-"exec sp_cursorfetch 180157937,16,41,1"
-"exec sp_cursorfetch 180157937,16,42,1"
-"exec sp_cursorfetch 180157937,16,43,1"
-"exec sp_cursorfetch 180157937,16,44,1"
-"exec sp_cursorfetch 180157937,16,45,1"
-"exec sp_cursorfetch 180157937,16,46,1"
-"exec sp_cursorfetch 180157937,16,47,1"
-"exec sp_cursorfetch 180157937,16,48,1"
-"exec sp_cursorfetch 180157937,16,49,1"
-"exec sp_cursorfetch 180157937,16,50,1"
-"exec sp_cursorfetch 180157937,16,51,1"
-"exec sp_cursorfetch 180157937,16,52,1"
-"exec sp_cursorfetch 180157937,16,53,1"
-"exec sp_cursorfetch 180157937,16,54,1"
-"exec sp_cursorfetch 180157937,16,55,1"
-"exec sp_cursorfetch 180157937,16,56,1"
-"exec sp_cursorfetch 180157937,16,57,1"
-"exec sp_cursorfetch 180157937,16,58,1"
-"exec sp_cursorfetch 180157937,16,59,1"
-"exec sp_cursorfetch 180157937,16,60,1"
-"exec sp_cursorfetch 180157937,16,61,1"
-"exec sp_cursorfetch 180157937,16,62,1"
 "declare @p1 int
 set @p1=180157939
 declare @p3 int
@@ -71762,9 +71606,6 @@ set @p5=3
 exec sp_cursoropen @p1 output,N' SELECT Description, OnlyInList FROM HS_DescriptionCourte WHERE Type_Of_Problem= ''NOUVELLE INSTALLATION'' ORDER BY SortOrder',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180157941,16,1,1"
-"exec sp_cursorfetch 180157941,16,2,1"
-"exec sp_cursorfetch 180157941,16,3,1"
-"exec sp_cursorfetch 180157941,16,4,1"
 exec sp_cursorclose 180157941
 "declare @p1 int
 set @p1=180157943
@@ -72404,29 +72245,6 @@ set @p5=21
 exec sp_cursoropen @p1 output,N'SELECT * FROM HS_Appel  WHERE HS_Appel.CUSTNMBR = ''CL00189898''  AND HS_Appel.ADRSCODE = ''SERVICE''  and (len(HS_Appel.Service_Call_ID)>=10 ) ORDER BY Service_Call_ID DESC',@p3 output,@p4 output,@p5 output
 select @p1, @p3, @p4, @p5"
 "exec sp_cursorfetch 180158045,16,1,22"
-"exec sp_cursorfetch 180158045,16,22,22"
-"exec sp_cursorfetch 180158045,16,1,1"
-"exec sp_cursorfetch 180158045,16,2,1"
-"exec sp_cursorfetch 180158045,16,3,1"
-"exec sp_cursorfetch 180158045,16,4,1"
-"exec sp_cursorfetch 180158045,16,5,1"
-"exec sp_cursorfetch 180158045,16,6,1"
-"exec sp_cursorfetch 180158045,16,7,1"
-"exec sp_cursorfetch 180158045,16,8,1"
-"exec sp_cursorfetch 180158045,16,9,1"
-"exec sp_cursorfetch 180158045,16,10,1"
-"exec sp_cursorfetch 180158045,16,11,1"
-"exec sp_cursorfetch 180158045,16,12,1"
-"exec sp_cursorfetch 180158045,16,13,1"
-"exec sp_cursorfetch 180158045,16,14,1"
-"exec sp_cursorfetch 180158045,16,15,1"
-"exec sp_cursorfetch 180158045,16,16,1"
-"exec sp_cursorfetch 180158045,16,17,1"
-"exec sp_cursorfetch 180158045,16,18,1"
-"exec sp_cursorfetch 180158045,16,19,1"
-"exec sp_cursorfetch 180158045,16,20,1"
-"exec sp_cursorfetch 180158045,16,21,1"
-"exec sp_cursorfetch 180158045,16,22,1"
 exec sp_cursorclose 180158045
 "declare @p1 int
 set @p1=180158047
