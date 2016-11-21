@@ -1,0 +1,219 @@
+"-- network protocol: TCP/IP
+set quoted_identifier on
+set arithabort off
+set numeric_roundabort off
+set ansi_warnings on
+set ansi_padding on
+set ansi_nulls on
+set concat_null_yields_null on
+set cursor_close_on_commit off
+set implicit_transactions "
+"declare @p1 int
+set @p1=180199125
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N'SELECT sv000805.*, ISNULL(t.Task_Description, sv000805.Note_Service_Index) as Subject  , CASE WHEN ISNULL(t.Task_Description, '''') <> '''' THEN 1 ELSE 0 END as ModeTache, a.Type_of_Problem , RTRIM(sv000805.CustNmbr) + ''_'' + RTRIM(sv000805.AdrsCode) + ''_'' + RTRIM(sv000805.Service_Call_ID) + ''_'' + RTRIM(sv000805.Ws_Note_Type) + ''_'' + RTRIM(sv000805.Note_Service_Index) as NoteKey FROM SV000805  LEFT JOIN HS_Appel a on sv000805.Service_Call_ID= a.Service_Call_ID LEFT JOIN HS_Tache t on sv000805.Service_Call_ID= t.Service_Call_ID         AND t.Task_Line_Number= CASE WHEN ISNUMERIC(sv000805.Note_Service_Index)= 1 THEN sv000805.Note_Service_Index ELSE 0 END WHERE UPPER(Reminder_Author) = ''ED50617RSC''  AND Reminder = ''1''  AND Reminder_Date <= CONVERT(DATETIME,''2016-11-10 10:59:00'')  AND Reminder_Date >= CONVERT(DATETIME,''2000-01-01 00:00:00'')  AND sv000805.WSReserved_CB5= 0  ORDER BY  Reminder_Date ',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180199125,1,0"
+"exec sp_cursorfetch 180199125,16,1,1"
+exec sp_cursorclose 180199125
+"declare @p1 int
+set @p1=180199127
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N'SELECT sv000805.*, ISNULL(t.Task_Description, sv000805.Note_Service_Index) as Subject  , CASE WHEN ISNULL(t.Task_Description, '''') <> '''' THEN 1 ELSE 0 END as ModeTache, a.Type_of_Problem , RTRIM(sv000805.CustNmbr) + ''_'' + RTRIM(sv000805.AdrsCode) + ''_'' + RTRIM(sv000805.Service_Call_ID) + ''_'' + RTRIM(sv000805.Ws_Note_Type) + ''_'' + RTRIM(sv000805.Note_Service_Index) as NoteKey FROM SV000805  LEFT JOIN HS_Appel a on sv000805.Service_Call_ID= a.Service_Call_ID LEFT JOIN HS_Tache t on sv000805.Service_Call_ID= t.Service_Call_ID         AND t.Task_Line_Number= CASE WHEN ISNUMERIC(sv000805.Note_Service_Index)= 1 THEN sv000805.Note_Service_Index ELSE 0 END WHERE UPPER(Reminder_Author) = ''ED50617RSC''  AND Reminder = ''1''  AND Reminder_Date <= CONVERT(DATETIME,''2016-11-10 11:00:00'')  AND Reminder_Date >= CONVERT(DATETIME,''2000-01-01 00:00:00'')  AND sv000805.WSReserved_CB5= 0  ORDER BY  Reminder_Date ',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180199127,1,0"
+"exec sp_cursorfetch 180199127,16,1,1"
+exec sp_cursorclose 180199127
+"declare @p1 int
+set @p1=180199129
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N'SELECT sv000805.*, ISNULL(t.Task_Description, sv000805.Note_Service_Index) as Subject  , CASE WHEN ISNULL(t.Task_Description, '''') <> '''' THEN 1 ELSE 0 END as ModeTache, a.Type_of_Problem , RTRIM(sv000805.CustNmbr) + ''_'' + RTRIM(sv000805.AdrsCode) + ''_'' + RTRIM(sv000805.Service_Call_ID) + ''_'' + RTRIM(sv000805.Ws_Note_Type) + ''_'' + RTRIM(sv000805.Note_Service_Index) as NoteKey FROM SV000805  LEFT JOIN HS_Appel a on sv000805.Service_Call_ID= a.Service_Call_ID LEFT JOIN HS_Tache t on sv000805.Service_Call_ID= t.Service_Call_ID         AND t.Task_Line_Number= CASE WHEN ISNUMERIC(sv000805.Note_Service_Index)= 1 THEN sv000805.Note_Service_Index ELSE 0 END WHERE UPPER(Reminder_Author) = ''ED50617RSC''  AND Reminder = ''1''  AND Reminder_Date <= CONVERT(DATETIME,''2016-11-10 11:01:00'')  AND Reminder_Date >= CONVERT(DATETIME,''2000-01-01 00:00:00'')  AND sv000805.WSReserved_CB5= 0  ORDER BY  Reminder_Date ',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180199129,1,0"
+"exec sp_cursorfetch 180199129,16,1,1"
+exec sp_cursorclose 180199129
+"-- network protocol: TCP/IP
+set quoted_identifier on
+set arithabort off
+set numeric_roundabort off
+set ansi_warnings on
+set ansi_padding on
+set ansi_nulls on
+set concat_null_yields_null on
+set cursor_close_on_commit off
+set implicit_transactions "
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+SET NOCOUNT ON
+SET NOCOUNT ON
+"declare @p1 int
+set @p1=180150003
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=9
+exec sp_cursoropen @p1 output,N'SELECT * FROM HS_ProprietaireAdhere ORDER BY ID',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150003,16,1,1"
+"exec sp_cursorfetch 180150003,16,2,1"
+"exec sp_cursorfetch 180150003,16,3,1"
+"exec sp_cursorfetch 180150003,16,4,1"
+"exec sp_cursorfetch 180150003,16,5,1"
+"exec sp_cursorfetch 180150003,16,6,1"
+"exec sp_cursorfetch 180150003,16,7,1"
+"exec sp_cursorfetch 180150003,16,8,1"
+"exec sp_cursorfetch 180150003,16,9,1"
+"exec sp_cursorfetch 180150003,16,10,1"
+exec sp_cursorclose 180150003
+"declare @p1 int
+set @p1=180150005
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=1
+exec sp_cursoropen @p1 output,N'SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS  WHERE TABLE_NAME = ''gmp_systeme''   AND  COLUMN_NAME = ''isNewTaxCalc''',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150005,16,1,1"
+exec sp_cursorclose 180150005
+"declare @p1 int
+set @p1=180150007
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=1
+exec sp_cursoropen @p1 output,N'SELECT isNewTaxCalc FROM gmp_systeme',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150007,16,1,1"
+exec sp_cursorclose 180150007
+"declare @p1 int
+set @p1=180150009
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=1
+exec sp_cursoropen @p1 output,N'Select StopAgentWebServices FROM gmp_systeme',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150009,16,1,1"
+exec sp_cursorclose 180150009
+"declare @p1 int
+set @p1=180150011
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT *  FROM HS_APPEL  WHERE USERID= ''WebServices''   AND Type_Of_Problem IN (''SOUMISSION CHAUFFAGE'', ''SOUMISSION CLIMATISATION'')',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150011,16,1,1"
+exec sp_cursorclose 180150011
+"declare @p1 int
+set @p1=180150013
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT *  FROM HS_APPEL  WHERE USERID= ''WebServices''   AND Type_Of_Problem = ''REPARATION DU CHAUFFE-EAU''',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150013,16,1,1"
+exec sp_cursorclose 180150013
+"declare @p1 int
+set @p1=180150015
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT ea.*, ear.EigenResponseMsg, ear.EigenWsAgentStatus  FROM gmp_eigen_agent_WsResp ear   INNER JOIN gmp_eigen_agent ea on ea.InvoiceID= ear.InvoiceID WHERE EigenWsAgentStatus= 0',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180150015,1,0"
+"exec sp_cursorfetch 180150015,16,1,1"
+exec sp_cursorclose 180150015
+"declare @p1 int
+set @p1=180150017
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=1
+exec sp_cursoropen @p1 output,N'Select StopAgentWebServices FROM gmp_systeme',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150017,16,1,1"
+exec sp_cursorclose 180150017
+"declare @p1 int
+set @p1=180150019
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT *  FROM HS_APPEL  WHERE USERID= ''WebServices''   AND Type_Of_Problem IN (''SOUMISSION CHAUFFAGE'', ''SOUMISSION CLIMATISATION'')',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150019,16,1,1"
+exec sp_cursorclose 180150019
+"declare @p1 int
+set @p1=180150021
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT *  FROM HS_APPEL  WHERE USERID= ''WebServices''   AND Type_Of_Problem = ''REPARATION DU CHAUFFE-EAU''',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursorfetch 180150021,16,1,1"
+exec sp_cursorclose 180150021
+"declare @p1 int
+set @p1=180150023
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N' SELECT ea.*, ear.EigenResponseMsg, ear.EigenWsAgentStatus  FROM gmp_eigen_agent_WsResp ear   INNER JOIN gmp_eigen_agent ea on ea.InvoiceID= ear.InvoiceID WHERE EigenWsAgentStatus= 0',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180150023,1,0"
+"exec sp_cursorfetch 180150023,16,1,1"
+exec sp_cursorclose 180150023
+"declare @p1 int
+set @p1=180199131
+declare @p3 int
+set @p3=8
+declare @p4 int
+set @p4=1
+declare @p5 int
+set @p5=0
+exec sp_cursoropen @p1 output,N'SELECT sv000805.*, ISNULL(t.Task_Description, sv000805.Note_Service_Index) as Subject  , CASE WHEN ISNULL(t.Task_Description, '''') <> '''' THEN 1 ELSE 0 END as ModeTache, a.Type_of_Problem , RTRIM(sv000805.CustNmbr) + ''_'' + RTRIM(sv000805.AdrsCode) + ''_'' + RTRIM(sv000805.Service_Call_ID) + ''_'' + RTRIM(sv000805.Ws_Note_Type) + ''_'' + RTRIM(sv000805.Note_Service_Index) as NoteKey FROM SV000805  LEFT JOIN HS_Appel a on sv000805.Service_Call_ID= a.Service_Call_ID LEFT JOIN HS_Tache t on sv000805.Service_Call_ID= t.Service_Call_ID         AND t.Task_Line_Number= CASE WHEN ISNUMERIC(sv000805.Note_Service_Index)= 1 THEN sv000805.Note_Service_Index ELSE 0 END WHERE UPPER(Reminder_Author) = ''ED50617RSC''  AND Reminder = ''1''  AND Reminder_Date <= CONVERT(DATETIME,''2016-11-10 11:02:00'')  AND Reminder_Date >= CONVERT(DATETIME,''2000-01-01 00:00:00'')  AND sv000805.WSReserved_CB5= 0  ORDER BY  Reminder_Date ',@p3 output,@p4 output,@p5 output
+select @p1, @p3, @p4, @p5"
+"exec sp_cursoroption 180199131,1,0"
+"exec sp_cursorfetch 180199131,16,1,1"
+exec sp_cursorclose 180199131
