@@ -147,7 +147,17 @@ TraceXmlXlsToCsv <- function(aTibble = data.frame(NULL), filePath = ""){
     
     return(FALSE);
   } else {
-    aTibble <- aTibble[!grepl("^2016", aTibble$SqlTrace),];
+    aTibble <- aTibble[!grepl("^2016", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("-- network protocol", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("SET TRANSACTION ISOLATION LEVEL READ", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("SET NOCOUNT ON", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("exec sp_cursorfetch ", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("exec sp_cursorclose ", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("exec sp_reset_connection", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("exec sp_cursoroption ", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("exec sp_cursor ", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("set implicit_transactions on", aTibble$SqlTrace), ];
+    aTibble <- aTibble[!grepl("set implicit_transactions off", aTibble$SqlTrace), ];
     write.csv(aTibble, file = "filePath");
     
     return(TRUE);
