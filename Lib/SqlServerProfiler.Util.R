@@ -84,11 +84,12 @@ TrimXmlXlsToTibble <- function(aTibble = NULL) {
   nbLines <- nrow(aTibble);
   aDataFr <- data.frame(NULL);
   count <- 0;
+  
   for (aLine in seq(nbLines))
   {
     if (IsConvertibleToDate(aTibble[[aLine,]])) {
     } else {
-      count<-count+1;
+      count <- count + 1;
       aString <- as.character(aTibble[[aLine,]]);
       print(aString);
       aDataFr <- rbind(aDataFr, aString);
@@ -97,6 +98,7 @@ TrimXmlXlsToTibble <- function(aTibble = NULL) {
   colnames(aDataFr) <- c("SqlTrace");
   aDataFr <- data.frame(lapply(aDataFr, as.character), stringsAsFactors = FALSE);
   print(count);
+  
   return(tibble::as_data_frame(aDataFr));
 }
 #' Title  ScreenXmlXlsFiles
@@ -170,7 +172,7 @@ ScreenTxtFiles <- function(fileList = list()) {
     print(singleFile);
     singleText <- readLines(singleFile);
     corpusWords <- Corpus(VectorSource(singleText));
-    #inspect(corpusWords);
+    # inspect(corpusWords);
     termDocMatrixSortDesc <- sort(rowSums(as.matrix(TermDocumentMatrix(corpusWords))),
                                   decreasing  = TRUE);
     termDocDataFrameSortDesc <- data.frame(word = names(termDocMatrixSortDesc),
@@ -179,7 +181,7 @@ ScreenTxtFiles <- function(fileList = list()) {
     print(head(termDocDataFrameSortDesc));
     singleWordcloudPng <- gsub(".txt", ".wordcloud.png", singleFile);
     WordcloudToPng(termDocDataFrameSortDesc, singleWordcloudPng);
-    #WorcloudToBarplot(termDocDataFrameSortDesc);
+    # WorcloudToBarplot(termDocDataFrameSortDesc);
     singleWordcloudFreq <- gsub(".txt", ".freq.csv", singleFile);
     print(singleWordcloudFreq);
     write.csv2(termDocDataFrameSortDesc, file = singleWordcloudFreq, row.names = FALSE);
@@ -247,4 +249,499 @@ WorcloudToBarplot <- function(aSortedDataFrame = NULL){
     return(aBarplot);
   }
 }
-
+#' Title  XlsToDataFrameSingleRow
+#'
+#' @param xlsFile 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+XlsToDataFrameSingleRow <- function(xlsFile = ""){
+  aDF <- NULL;
+  
+  if (!is.null(xlsFile)) {
+    aDF <- xlsx::read.xlsx2(xlsFile,
+                                sheetIndex = 1,
+                                as.data.frame = TRUE,
+                                header = TRUE);
+    aDF <- head(aDF, 1);
+    aDF <- tibble::as_data_frame(aDF);
+  }
+  
+  return(aDF);
+}
+#' Title  XlsToDataFrame
+#'
+#' @param xlsFile 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+XlsToDataFrame <- function(xlsFile = ""){
+  aDF <- NULL;
+  
+  if (!is.null(xlsFile)) {
+    aDF <- xlsx::read.xlsx2(xlsFile,
+                            sheetIndex = 1,
+                            as.data.frame = TRUE,
+                            header = TRUE);
+    aDF <- tibble::as_data_frame(aDF);
+  }
+  
+  return(aDF);
+}
+#' Title  XlsFileToPng
+#'
+#' @param xlsFilePath 
+#' @param dbName 
+#' @param chartName 
+#'
+#' @return character
+#' @export TBD
+#'
+#' @examples TBD
+XlsFileToPng <- function(xlsFilePath = "", dbName = "", chartName = ""){
+  # extension time
+  # timeNow <- format(Sys.time(), "-%Y-%m-%d_%Hh%M");
+  # timeExt <- paste0(timeNow, chartName, ".png");
+  timeExt <- paste0(chartName, ".png");
+  # png
+  filePath <- gsub(".xls", timeExt, xlsFilePath);
+  #filePath <- gsub("SQL/", paste0("../../ODBC/", dbName, "-", Sys.getenv("ASKIDA_ENV"), "-"), filePath);
+  
+  return(filePath);
+}
+#' Title  SummarizeDBFunctionDataFrame
+#'
+#' @param objectDataFrame
+#' @param functionFilter
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+SummarizeDBFunctionDataFrame <- function(objectDataFrame, functionFilter="Function"){
+  colnames <- colnames(objectDataFrame);
+  # separate functions
+  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  # sum functions
+  functionsDataFrame <- data.frame(functionFilter, sum(functionsDataFrame[[2]]));
+  colnames(functionsDataFrame) <- colnames;
+  # remove functions
+  objectDataFrame <- subset(objectDataFrame, !grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  # add sum functions
+  objectDataFrame <- rbind(objectDataFrame, functionsDataFrame);
+  
+  return(tibble::as_data_frame(objectDataFrame));
+}
+#' Title  SummarizeAllDBFunctionDataFrame
+#'
+#' @param objectDataFrame
+#' @param functionFilter
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+SummarizeAllDBFunctionDataFrame <- function(objectDataFrame, functionFilter="Function"){
+  colnames <- colnames(objectDataFrame);
+  # separate functions
+  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  colnames <- c("FunctionTypes", "FunctionCount");
+  colnames(functionsDataFrame) <- colnames;
+  
+  return(tibble::as_data_frame(functionsDataFrame));
+}
+#' Title  DataFrameFromColumns
+#'
+#' @param aDataFrame
+#' @param colName1
+#' @param colName2
+#' @param colName3
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameFromColumns <- function(aDataFrame = NULL,
+                                 colName1 = "",
+                                 colName2 = "",
+                                 colName3 = ""){
+  columnList <- c(colName1, colName2, colName3);
+  write(columnList, stdout());
+  indexList <- which(colnames(aDataFrame) %in% columnList);
+  write(indexList, stdout());
+  
+  return(tibble::as_data_frame(aDataFrame[indexList]));
+}
+#' Title  DataFrameWithoutWithTotal
+#'
+#' @param intWithout
+#' @param intWith
+#' @param intTotal
+#' @param OutputType
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameWithoutWithTotal <- function(intWithout = 1,
+                                      intWith = 1,
+                                      intTotal = 2,
+                                      OutputType = ""){
+  aDataFrame <- data.frame(NULL);
+  aDataFrame[1, 1] <- intWithout;
+  aDataFrame[1, 2] <- intWith;
+  aDataFrame[1, 3] <- intTotal;
+  colnames(aDataFrame) <- c(paste0(OutputType,"WithoutParameters"),
+                            paste0(OutputType,"WithParameters"),
+                            paste0(OutputType,"Total"));
+  
+  return(tibble::as_data_frame(aDataFrame));
+}
+library(ggplot2);
+library(gridExtra);
+#' Title  GgplotToPng
+#'
+#' @param pngFilePath
+#'
+#' @export TBD
+#'
+#' @examples TBD
+GgplotToPng <- function(pngFilePath = "", barplot = NULL) {
+  
+  if (is.na(barplot)) {
+    
+    return(FALSE);
+  } else {
+    write(paste0("Saving to path : ", pngFilePath), stdout());
+    ggsave(filename = pngFilePath, plot = barplot, dpi = 100);
+    
+    return(TRUE);
+  }
+}
+#' Title  DBUsageDataFrameToBarplot
+#'
+#' @param usageDataFrame
+#' @param pngFilePath
+#'
+#' @return ggplot
+#' @export TBD
+#'
+#' @examples TBD
+DBUsageDataFrameToBarplot <- function(usageDataFrame = NULL) {
+  
+  if (is.null(usageDataFrame)) {
+    
+    return(NULL);
+  } else {
+    write(paste0("Column name: ", colnames(usageDataFrame)), stdout());
+    # titles
+    xTitle <- colnames(usageDataFrame)[2];
+    yTitle <- colnames(rev(usageDataFrame)[1]);
+    mainTitle <- "Usage List count";
+    # graph
+    barplot <- ggplot(usageDataFrame, aes(x = factor(DBName), y = DBBufferMB)) +
+      geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+      xlab(xTitle) + ylab(yTitle) + ggtitle(mainTitle) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(barplot);
+  }
+}
+#' Title  DBUsageDataFrameToPiechart
+#'
+#' @param usageDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBUsageDataFrameToPiechart <- function(usageDataFrame = NULL) {
+  
+  if (is.null(usageDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(usageDataFrame)), stdout());
+    PercentList <- round(usageDataFrame$DBBufferMB / sum(usageDataFrame$DBBufferMB) * 100, digits = 1);
+    labelList <- paste0(usageDataFrame$DBName," ",PercentList, "%");
+    ColorList <- heat.colors(length(PercentList));
+    # titles
+    xTitle <- colnames(usageDataFrame)[2];
+    yTitle <- colnames(rev(usageDataFrame)[1]);
+    mainTitle <- "Usage List Piechart";
+    # graph
+    piePlot <- ggplot(usageDataFrame, aes(x = factor(1), y = PercentList, fill = labelList)) +
+      # make stacked bar chart with black border
+      geom_bar(stat = "identity", color = "grey80", width = 1) +
+      # add the percents to the interior of the chart
+      #geom_text(aes(x = 1.5, y = PercentList, label = labelList), size = 4) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      coord_polar(theta = "y");
+    
+    return(piePlot);
+  }
+}
+#' Title  DBObjectDataFrameToBarplot
+#'
+#' @param objectDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples  TBD
+DBObjectDataFrameToBarplot <- function(objectDataFrame = NULL) {
+  
+  if (is.null(objectDataFrame)) {
+    write("+ ERROR : Empty data.frame", stderr());
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(objectDataFrame)), stdout());
+    # titles
+    xTitle <- colnames(objectDataFrame)[1];
+    yTitle <- colnames(objectDataFrame)[-1];
+    mainTitle <- "ObjectList count";
+    # graph
+    barplot <- ggplot(objectDataFrame,
+                      aes(x = factor(ObjectName), y = ObjectCount)) +
+      geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle);
+    
+    return(barplot);
+  }
+}
+#' Title DBFunctionDataFrameToBarplot
+#'
+#' @param functionDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBFunctionDataFrameToBarplot <- function(functionDataFrame = NULL) {
+  
+  if (is.null(functionDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(functionDataFrame)), stdout());
+    PercentList <- round(functionDataFrame$FunctionCount / sum(functionDataFrame$FunctionCount) * 100);
+    FunctionTypeList <- paste0(functionDataFrame$FunctionTypes," ",PercentList, "%");
+    # titles
+    xTitle <- colnames(functionDataFrame)[1];
+    yTitle <- colnames(functionDataFrame)[-1];
+    mainTitle <- "Function Type List Barplot";
+    # graph
+    aBarplot <- ggplot(functionDataFrame,
+                       aes(x = "", y = FunctionCount, fill = FunctionTypeList)) +
+      labs(fill = xTitle) +
+      geom_bar(width = 1, stat = "identity") +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle);
+    
+    return(aBarplot);
+  }
+}
+#' Title  DBFunctionDataFrameToPiechart
+#'
+#' @param functionDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBFunctionDataFrameToPiechart <- function(functionDataFrame = NULL) {
+  
+  if (is.null(functionDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(functionDataFrame)), stdout());
+    PercentList <- round(functionDataFrame$FunctionCount / sum(functionDataFrame$FunctionCount) * 100);
+    FunctionTypeList <- paste0(functionDataFrame$FunctionTypes," ",PercentList, "%");
+    ColorList <- heat.colors(length(PercentList));
+    # titles
+    xTitle <- colnames(functionDataFrame)[1];
+    yTitle <- colnames(functionDataFrame)[-1];
+    mainTitle <- "Function Type List Piechart";
+    # graph
+    piePlot <- ggplot(functionDataFrame,
+                      aes(x = factor(1), y = PercentList, fill = FunctionTypeList)) +
+      # make stacked bar chart with black border
+      geom_bar(stat = "identity", color = "grey80", width = 1) +
+      # add the percents to the interior of the chart
+      #geom_text(aes(x = 1.5, y = PercentList, label = FunctionTypes), size = 4) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      coord_polar(theta = "y");
+    
+    return(piePlot);
+  }
+}
+#' Title  StoredProcWithoutWithTotalDFToBarplot
+#'
+#' @param woWithTotalDataFrame
+#' @param OutputType
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+StoredProcWithoutWithTotalDFToBarplot <- function(woWithTotalDataFrame = NULL,
+                                                  OutputType = "") {
+  if (is.null(woWithTotalDataFrame)) {
+    
+    return(NULL);
+  }else{
+    # rm totals/ last column & save colnames
+    woWithTotalDataFrame <- rev(woWithTotalDataFrame)[-1];
+    myColNames <- colnames(woWithTotalDataFrame);
+    # rm colname and transpose and rm new colname
+    colnames(woWithTotalDataFrame) <- NULL;
+    woWithTotalDataFrame <- t(woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    # add columns and replace colname
+    woWithTotalDataFrame <- cbind(myColNames, woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    colnames(woWithTotalDataFrame) <- c(paste0(OutputType, "Types"), paste0(OutputType, "Count"));
+    # cast to data frame
+    woWithTotalDataFrame <- tibble::as_data_frame(as.data.frame(woWithTotalDataFrame));
+    woWithTotalDataFrame;
+    # check colname
+    write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
+    # titles
+    xTitle <- colnames(woWithTotalDataFrame)[1];
+    yTitle <- colnames(woWithTotalDataFrame)[-1];
+    mainTitle <- paste0(OutputType, " Type List Barplot");
+    # graph
+    aBarplot <- ggplot(woWithTotalDataFrame,
+                       aes(x = "", y = StoredProcCount, fill = StoredProcTypes)) +
+      labs(fill = xTitle) +
+      geom_bar(width = 1, stat = "identity") +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle);
+    
+    return(aBarplot);
+  }
+}
+#' Title  DBStoreProcDataFrameToDensityplot
+#'
+#' @param storeProcDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBStoreProcDataFrameToDensityplot <- function(storeProcDataFrame = NULL) {
+  
+  if (is.null(storeProcDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(storeProcDataFrame)), stdout());
+    # titles
+    xTitle <- "Number of parameters";
+    mainTitle <- "Densityplot for parameter distribution";
+    # graph
+    aDensityplot <- ggplot(storeProcDataFrame,
+                           aes(NbParameters, fill = ProcedureType)) +
+      geom_density(alpha = 0.6) +
+      labs(title = mainTitle, x = xTitle);
+    
+    return(aDensityplot);
+  }
+}
+#' Title  StoredProcWithoutWithTotalDFToPiechart
+#'
+#' @param woWithTotalDataFrame
+#' @param OutputType
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+StoredProcWithoutWithTotalDFToPiechart <- function(woWithTotalDataFrame = NULL,
+                                                   OutputType = "") {
+  if (is.null(woWithTotalDataFrame)) {
+    
+    return(NULL);
+  } else {
+    # rm totals/ last column & save colnames
+    woWithTotalDataFrame <- rev(woWithTotalDataFrame)[-1];
+    myColNames <- colnames(woWithTotalDataFrame);
+    # rm colname and transpose and rm new colname
+    colnames(woWithTotalDataFrame) <- NULL;
+    woWithTotalDataFrame <- t(woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    # add columns and replace colname
+    woWithTotalDataFrame <- cbind(myColNames, woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    colnames(woWithTotalDataFrame) <- c(paste0(OutputType, "Types"), paste0(OutputType, "Count"));
+    # cast to data frame
+    woWithTotalDataFrame <- tibble::as_data_frame(as.data.frame(woWithTotalDataFrame));
+    woWithTotalDataFrame[[2]] <- as.numeric(as.character(woWithTotalDataFrame[[2]]));
+    #
+    write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
+    PercentList <- round(woWithTotalDataFrame[[2]] / sum(woWithTotalDataFrame[[2]]) * 100, digits = 1);
+    labelList <- paste0(woWithTotalDataFrame[[1]], " ", PercentList, "%");
+    ColorList <- heat.colors(length(PercentList));
+    # titles
+    xTitle <- colnames(woWithTotalDataFrame)[2];
+    yTitle <- colnames(rev(woWithTotalDataFrame)[1]);
+    mainTitle <- paste0(OutputType, " List Piechart");
+    # graph
+    piePlot <- NULL;
+    piePlot <- ggplot(woWithTotalDataFrame, aes(x = factor(1), y = PercentList, fill = labelList)) +
+      # make stacked bar chart with black border
+      geom_bar(stat = "identity", color = "grey80", width = 1) +
+      # add the percents to the interior of the chart
+      # geom_text(aes(x = 1.5, y = PercentList, label = labelList), size = 4) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      coord_polar(theta = "y");
+    
+    return(piePlot);
+  }
+}
+#' Title  DBStoreProcDataFrameToBoxplot
+#'
+#' @param storeProcDataFrame 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBStoreProcDataFrameToBoxplot <- function(storeProcDataFrame = NULL) {
+  if (is.null(storeProcDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(paste0("Column name: ", colnames(storeProcDataFrame)), stdout());
+    # titles
+    xTitle <- "Procedure type";
+    yTitle <- "Number of parameters";
+    mainTitle <- "Boxplot for parameter distribution";
+    # graph
+    aBoxplot <- ggplot(storeProcDataFrame,
+                       aes(x = ProcedureType, y = NbParameters)) +
+      geom_boxplot(aes(fill = ProcedureType)) +
+      geom_jitter() +
+      # + geom_point(aes(colour = factor(type_desc)), size=4)
+      scale_y_continuous(breaks = seq(0, 12, 1.0)) +
+      labs(title = mainTitle, x = xTitle, y = yTitle);
+    
+    return(aBoxplot);
+  }
+}
