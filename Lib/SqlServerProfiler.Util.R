@@ -777,4 +777,109 @@ DBRowCountFrameToBarplot <- function(usageDataFrame = NULL) {
     return(barplot);
   }
 }
+#' Title  FunctionWithoutWithTotalDFToBarplot
+#'
+#' @param woWithTotalDataFrame
+#' @param OutputType
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+FunctionWithoutWithTotalDFToBarplot <- function(woWithTotalDataFrame = NULL,
+                                                OutputType = "") {
+  
+  if (is.null(woWithTotalDataFrame)) {
+    
+    return(NULL);
+  }else{
+    # rm totals/ last column & save colnames
+    woWithTotalDataFrame <- rev(woWithTotalDataFrame)[-1];
+    myColNames <- colnames(woWithTotalDataFrame);
+    # rm colname and transpose and rm new colname
+    colnames(woWithTotalDataFrame) <- NULL;
+    woWithTotalDataFrame <- t(woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    # add columns and replace colname
+    woWithTotalDataFrame <- cbind(myColNames, woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    colnames(woWithTotalDataFrame) <- c(paste0(OutputType, "Types"), paste0(OutputType, "Count"));
+    # cast to data frame
+    woWithTotalDataFrame <- as.data.frame(woWithTotalDataFrame);
+    # check colname
+    write(colnames(woWithTotalDataFrame), stdout());
+    # titles
+    xTitle <- colnames(woWithTotalDataFrame)[1];
+    yTitle <- colnames(woWithTotalDataFrame)[-1];
+    mainTitle <- paste0(OutputType, " Type List Barplot");
+    # graph
+    aBarplot <- ggplot(woWithTotalDataFrame,
+                       aes(x = "", y = FnCount, fill = FnTypes)) +
+      labs(fill = xTitle) +
+      geom_bar(width = 1, stat = "identity") +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle);
+    
+    return(aBarplot);
+  }
+}
+#' Title  DBFunctionDataFrameToBoxplot
+#'
+#' @param functionDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBFunctionDataFrameToBoxplot <- function(functionDataFrame = NULL) {
+  
+  if (is.null(functionDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(colnames(functionDataFrame), stdout());
+    # titles
+    xTitle <- "Function type";
+    yTitle <- "Number of parameters";
+    mainTitle <- "Boxplot for parameter distribution";
+    # graph
+    aBoxplot <- ggplot(functionDataFrame,
+                       aes(x = FunctionType, y = NbParameters)) +
+      geom_boxplot(aes(fill = FunctionType)) +
+      geom_jitter() +
+      # + geom_point(aes(colour = factor(type_desc)), size=4)
+      scale_y_continuous(breaks = seq(0, 12, 1.0)) +
+      labs(title = mainTitle, x = xTitle, y = yTitle);
+    
+    return(aBoxplot);
+  }
+}
+#' Title  DBFunctionDataFrameToDensityplot
+#'
+#' @param functionDataFrame
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBFunctionDataFrameToDensityplot <- function(functionDataFrame = NULL) {
+  
+  if (is.null(functionDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(colnames(functionDataFrame), stdout());
+    # titles
+    xTitle <- "Number of parameters";
+    mainTitle <- "Densityplot for parameter distribution";
+    # graph
+    aDensityplot <- ggplot(functionDataFrame,
+                           aes(NbParameters, fill = FunctionType)) +
+      geom_density(alpha = 0.6) +
+      labs(title = mainTitle, x = xTitle);
+    
+    return(aDensityplot);
+  }
+}
 
