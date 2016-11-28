@@ -745,3 +745,36 @@ DBStoreProcDataFrameToBoxplot <- function(storeProcDataFrame = NULL) {
     return(aBoxplot);
   }
 }
+#' Title  DBRowCountFrameToBarplot
+#'
+#' @param usageDataFrame 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DBRowCountFrameToBarplot <- function(usageDataFrame = NULL) {
+  
+  if (is.null(usageDataFrame)) {
+    
+    return(NULL);
+  }else{
+    write(colnames(usageDataFrame), stdout());
+    # titles
+    xTitle <- colnames(usageDataFrame)[1];
+    yTitle <- colnames(rev(usageDataFrame)[1]);
+    mainTitle <- "Row List count";
+    # graph
+    barplot <- ggplot(usageDataFrame, aes(x = factor(TableRows), y = RowRepeats)) +
+      ##barplot <- ggplot(usageDataFrame, aes(x = factor(TableRows), y = sqrt(RowRepeats))) +
+      geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+      ##scale_y_sqrt(paste0("Square root of ", yTitle)) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(barplot);
+  }
+}
+
