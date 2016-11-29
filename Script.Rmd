@@ -15,8 +15,8 @@ The best tool to do statistical analysis and graph is R (integrated in SQL Serve
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
@@ -281,10 +281,10 @@ storeProcParamsDF;
 OutputType <- "StoredProc";
 # DB StoreProc barplot
 storeProcParamsBarplot <- StoredProcWithoutWithTotalDFToBarplot(storeProcParamsDF, OutputType);
-storeProcParamsBarplot;
 # DB StoreProc piechart
 storeProcParamsPiechart <- StoredProcWithoutWithTotalDFToPiechart(storeProcParamsDF, OutputType);
-storeProcParamsPiechart;
+#
+grid.arrange(storeProcParamsBarplot, storeProcParamsPiechart, nrow = 1, ncol = 2);
 # DB StoreProc boxplot
 storeProcParamsBoxplot <- DBStoreProcDataFrameToBoxplot(storedProcParamDataFrameFat);
 # DB StoreProc density plot
@@ -380,7 +380,7 @@ print("Server DB Table Trunk List");
 # DB Table Analysis Trunk
 xlsFile <- "Data/HYSEC-TableTrunk_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
-sqlDataFrame$TableLeafName <- as.character(sqlDataFrame$TableLeafName);
+sqlDataFrame$TableLeafName <- as.character(sqlDataFrame$TableTrunkName);
 print(paste0("Table Trunk list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()
@@ -396,7 +396,7 @@ print("Table Leaf List");
 # DB Table Analysis Leaf
 xlsFile <- "Data/HYSEC-TableLeaf_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
-sqlDataFrame$TableWoParentWoDependents <- as.character(sqlDataFrame$TableWoParentWoDependents);
+sqlDataFrame$TableWoParentWoDependents <- as.character(sqlDataFrame$TableLeafName);
 print(paste0("Table Leaf list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()
@@ -572,6 +572,15 @@ print("Server Constraint Analysis");
 # Constraint Analysis List
 xlsFile <- "Data/HYSEC-Constraint_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
+sqlDataFrame$DBName <- as.character(sqlDataFrame$DBName);
+sqlDataFrame$TableName <- as.character(sqlDataFrame$TableName);
+sqlDataFrame$ColumnNumber <- as.integer(as.character(sqlDataFrame$ColumnNumber));
+sqlDataFrame$ColumnName <- as.character(sqlDataFrame$ColumnName);
+sqlDataFrame$ConstraintName <- as.character(sqlDataFrame$ConstraintName);
+sqlDataFrame$ConstraintType <- as.character(sqlDataFrame$ConstraintType);
+sqlDataFrame$ConstraintDescription <- as.character(sqlDataFrame$ConstraintDescription);
+#
+sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinition);
 print(paste0("Constraint list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()

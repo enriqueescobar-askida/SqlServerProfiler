@@ -1,6 +1,6 @@
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
@@ -246,7 +246,7 @@ rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Trunk
 xlsFile <- "Data/HYSEC-TableTrunk_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
-sqlDataFrame$TableLeafName <- as.character(sqlDataFrame$TableLeafName);
+sqlDataFrame$TableLeafName <- as.character(sqlDataFrame$TableTrunkName);
 print(paste0("Table Trunk list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()
@@ -254,7 +254,7 @@ rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Leaf
 xlsFile <- "Data/HYSEC-TableLeaf_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
-sqlDataFrame$TableWoParentWoDependents <- as.character(sqlDataFrame$TableWoParentWoDependents);
+sqlDataFrame$TableWoParentWoDependents <- as.character(sqlDataFrame$TableLeafName);
 print(paste0("Table Leaf list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()
@@ -455,6 +455,15 @@ rm(countIndex); rm(xlsFile); rm(sqlDataFrame);
 # Constraint Analysis List
 xlsFile <- "Data/HYSEC-Constraint_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
+sqlDataFrame$DBName <- as.character(sqlDataFrame$DBName);
+sqlDataFrame$TableName <- as.character(sqlDataFrame$TableName);
+sqlDataFrame$ColumnNumber <- as.integer(as.character(sqlDataFrame$ColumnNumber));
+sqlDataFrame$ColumnName <- as.character(sqlDataFrame$ColumnName);
+sqlDataFrame$ConstraintName <- as.character(sqlDataFrame$ConstraintName);
+sqlDataFrame$ConstraintType <- as.character(sqlDataFrame$ConstraintType);
+sqlDataFrame$ConstraintDescription <- as.character(sqlDataFrame$ConstraintDescription);
+#
+sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinition);
 print(paste0("Constraint list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
 # rm()
