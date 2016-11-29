@@ -50,15 +50,38 @@ serverService <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-ServiceInstance.x
 serverService <- as.character(serverService);
 # Server Running
 serverRunning <- XlsToDataFrame("Data/HYSEC-ServerRunning_list.xls");
+serverRunning$ServerName <- as.character(serverRunning$ServerName);
+serverRunning$ServiceName <- as.character(serverRunning$ServiceName);
+serverRunning$ServerStarted <- as.numeric(as.character(serverRunning$ServerStarted));
+serverRunning$DaysRunning <- as.numeric(as.character(serverRunning$DaysRunning));
 head(serverRunning); rm(serverRunning);
 # Server Linked
 serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
+serverLinked$ServerName <- as.character(serverLinked$ServerName);
+serverLinked$LinkedServerID <- as.integer(as.character(serverLinked$LinkedServerID));
+serverLinked$LinkedServer <- as.character(serverLinked$LinkedServer);
+serverLinked$Product <- as.character(serverLinked$Product);
+serverLinked$Provider <- as.character(serverLinked$Provider);
+serverLinked$DataSource <- as.character(serverLinked$DataSource);
+serverLinked$ModificationDate <- as.numeric(as.character(serverLinked$ModificationDate));
+serverLinked$IsLinked <- as.logical(as.character(serverLinked$IsLinked));
 head(serverLinked); rm(serverLinked);
 # Server DB spec
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
+serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
+serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
+serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
+serverDbSpec$DBIdentifier <- as.character(serverDbSpec$DBIdentifier);
+serverDbSpec$DBName <- as.character(serverDbSpec$DBName);
+serverDbSpec$OriginalDBName <- as.character(serverDbSpec$OriginalDBName);
 head(serverDbSpec); rm(serverDbSpec);
 # Server DB Backup
 serverDbBackup <- XlsToDataFrame("Data/HYSEC-ServerDBBackup_list.xls");
+serverDbBackup$ServerName <- as.character.Date(serverDbBackup$ServerName);
+serverDbBackup$ServiceName <- as.character(serverDbBackup$ServiceName);
+serverDbBackup$DBName <- as.character(serverDbBackup$DBName);
+serverDbBackup$Backup_finish_date <- as.numeric(as.character(serverDbBackup$Backup_finish_date));
+serverDbBackup$Physical_Device_name <- as.character(serverDbBackup$Physical_Device_name);
 head(serverDbBackup); rm(serverDbBackup);
 ## Server DB Usage
 # Server DB usage list
@@ -466,6 +489,9 @@ sqlDataFrame$ConstraintDescription <- as.character(sqlDataFrame$ConstraintDescri
 sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinition);
 print(paste0("Constraint list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
+sqlDataFrame <- ConstraintToTableNameFrequency(sqlDataFrame);
+constraintBarplot <- TwoColumnDataFrameToBarlot(sqlDataFrame);
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), constraintBarplot);
 # rm()
-rm(sqlFile); rm(sqlDataFrame);
+rm(xlsFile); rm(sqlDataFrame); rm(constraintBarplot);
 

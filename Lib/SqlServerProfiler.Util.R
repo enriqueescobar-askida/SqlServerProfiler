@@ -401,6 +401,24 @@ DataFrameWithoutWithTotal <- function(intWithout = 1,
   
   return(tibble::as_data_frame(aDataFrame));
 }
+#' Title  ConstraintToTableNameFrequency
+#'
+#' @param aDataFrame 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+ConstraintToTableNameFrequency <- function(aDataFrame = NULL) {
+  aDF <- data.frame(NULL);
+  
+  if (!is.null(aDataFrame)) {
+    aDF <- tibble::as_data_frame(sort(table(aDataFrame$TableName), decreasing = TRUE));
+    colnames(aDF) <- c("TableName", "ConstraintCount");
+  }
+  
+  return(aDF);
+}
 library(ggplot2);
 library(gridExtra);
 #' Title  GgplotToPng
@@ -420,6 +438,41 @@ GgplotToPng <- function(pngFilePath = "", barplot = NULL) {
     ggsave(filename = pngFilePath, plot = barplot, dpi = 100);
     
     return(TRUE);
+  }
+}
+#' Title  TwoColumnDataFrameToBarlot
+#'
+#' @param aDataFrame 
+#' @param mainTitle 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+TwoColumnDataFrameToBarlot <- function(aDataFrame = NULL, mainTitle = "") {
+  
+  if (is.null(aDataFrame)) {
+    
+    return(NULL);
+  } else {
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    aDataFrame <- head(aDataFrame, 50);
+    # titles
+    xTitle <- colnames(aDataFrame)[1];
+    yTitle <- colnames(aDataFrame)[2];
+    colnames(aDataFrame) <- NULL;
+    names(aDataFrame)[1] <- "X";
+    names(aDataFrame)[2] <- "Y";
+    # graph
+    barplot <- ggplot(aDataFrame,
+                      aes(x = factor(X), y = Y)) +
+                geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+                xlab(xTitle) +
+                ylab(yTitle) +
+                ggtitle(mainTitle) +
+                theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(barplot);
   }
 }
 #' Title  DBUsageDataFrameToBarplot
@@ -443,10 +496,13 @@ DBUsageDataFrameToBarplot <- function(usageDataFrame = NULL) {
     yTitle <- colnames(rev(usageDataFrame)[1]);
     mainTitle <- "Usage List count";
     # graph
-    barplot <- ggplot(usageDataFrame, aes(x = factor(DBName), y = DBBufferMB)) +
-      geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
-      xlab(xTitle) + ylab(yTitle) + ggtitle(mainTitle) +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    barplot <- ggplot(usageDataFrame,
+                      aes(x = factor(DBName), y = DBBufferMB)) +
+                geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+                xlab(xTitle) +
+                ylab(yTitle) +
+                ggtitle(mainTitle) +
+                theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
     
     return(barplot);
   }
