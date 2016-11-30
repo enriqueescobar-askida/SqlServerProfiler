@@ -184,6 +184,7 @@ xlsFile <- "Data/HYSEC-Function_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
 sqlDataFrame$FunctionName <- as.character(sqlDataFrame$FunctionName);
 sqlDataFrame$FunctionID <- as.integer(as.character(sqlDataFrame$FunctionID));
+sqlDataFrame$FunctionType <- as.integer(as.character(sqlDataFrame$FunctionType));
 sqlDataFrame$FunctionDesc <- as.character(sqlDataFrame$FunctionDesc);
 sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCreated)); #
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
