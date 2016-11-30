@@ -140,6 +140,7 @@ objectAllPiechart <- DBFunctionDataFrameToPiechart(objectAllDataFrame);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-All_Piechart"), objectAllPiechart);
 # DB object list all plot
 grid.arrange(objectAllBarplot, objectAllPiechart, nrow = 1, ncol = 2);
+#
 rm(xlsFile); rm(ObjectListDataFrame);
 rm(ObjectSumDataFrame); rm(objectSumBarplot); rm(objectSumPiechart);
 rm(objectAllDataFrame); rm(objectAllBarplot); rm(objectAllPiechart);
