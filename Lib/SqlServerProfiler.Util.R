@@ -313,7 +313,7 @@ XlsFileToPng <- function(xlsFilePath = "", dbName = "", chartName = ""){
   
   return(filePath);
 }
-#' Title  SummarizeDBFunctionDataFrame
+#' Title  ObjectListGroupFunctionsDataFrame
 #'
 #' @param objectDataFrame
 #' @param functionFilter
@@ -322,7 +322,7 @@ XlsFileToPng <- function(xlsFilePath = "", dbName = "", chartName = ""){
 #' @export TBD
 #'
 #' @examples TBD
-SummarizeDBFunctionDataFrame <- function(objectDataFrame, functionFilter="Function"){
+ObjectListGroupFunctionsDataFrame <- function(objectDataFrame, functionFilter="Function"){
   colnames <- colnames(objectDataFrame);
   # separate functions
   functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
@@ -542,6 +542,45 @@ DBUsageDataFrameToPiechart <- function(usageDataFrame = NULL) {
     
     return(piePlot);
   }
+}
+#' Title  GenericPiechartFromTwoColumnDataFrame
+#'
+#' @param aDataFrame 
+#' @param mainTitle 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+GenericPiechartFromTwoColumnDataFrame <- function(aDataFrame = NULL, mainTitle = NULL) {
+  aPierchart <- NULL;
+  
+  if (!is.null(aDataFrame) & (ncol(aDataFrame) == 2)) {
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    # titles
+    xTitle <- colnames(aDataFrame)[1];
+    names(aDataFrame)[1] <- "X";
+    yTitle <- colnames(aDataFrame)[2];
+    names(aDataFrame)[2] <- "Y";
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    mainTitle <- paste0(mainTitle, " PieChart");
+    # lists
+    PercentList <- round(aDataFrame$Y / sum(aDataFrame$Y) * 100, digits = 1);
+    labelList <- paste0(aDataFrame$X," ",PercentList, "%");
+    ColorList <- heat.colors(length(PercentList));
+    # graph
+    aPierchart <- ggplot(aDataFrame,
+                         aes(x = factor(1), y = PercentList, fill = labelList)) +
+                  # make stacked bar chart with black border
+                  geom_bar(stat = "identity", color = "grey80", width = 1) +
+                  #geom_text(aes(x = 1.5, y = PercentList, label = labelList), size = 4) +
+                  ggtitle(mainTitle) +
+                  xlab(xTitle) +
+                  ylab(yTitle) +
+                  coord_polar(theta = "y");
+  }
+  
+  return(aPierchart);
 }
 #' Title  DBObjectDataFrameToBarplot
 #'

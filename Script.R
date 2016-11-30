@@ -1,6 +1,6 @@
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-#setwd("D:/Disk_X/axon/SqlServerProfiler");
-setwd("E:/Disk_X/SqlServerProfiler/");
+setwd("D:/Disk_X/axon/SqlServerProfiler");
+#setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
@@ -122,10 +122,16 @@ xlsFile <- "Data/HYSEC-Object_list.xls";
 ObjectListDataFrame <- XlsToDataFrame(xlsFile);
 ObjectListDataFrame$ObjectName <- as.character(ObjectListDataFrame$ObjectName);
 ObjectListDataFrame$ObjectCount <- as.integer(as.character(ObjectListDataFrame$ObjectCount));
-# DB object list sum fonctions
-ObjectSumDataFrame <- SummarizeDBFunctionDataFrame(ObjectListDataFrame, "Function");
+# DB object list group fonctions
+ObjectSumDataFrame <- ObjectListGroupFunctionsDataFrame(ObjectListDataFrame, "Function");
+# DB object list Barplot
 objectSumBarplot <- DBObjectDataFrameToBarplot(ObjectSumDataFrame);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Sum_Barplot"), objectSumBarplot);
+# DB object list Piechart
+objectSumPiechart <- GenericPiechartFromTwoColumnDataFrame(ObjectSumDataFrame, mainTitle = "Object Summary");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Sum_Piechart"), objectSumPiechart);
+#
+grid.arrange(objectSumBarplot, objectSumPiechart, nrow = 1, ncol = 2);
 # DB object list all fonctions
 objectAllDataFrame <- SummarizeAllDBFunctionDataFrame(ObjectListDataFrame, "Function");
 objectAllBarplot <- DBFunctionDataFrameToBarplot(objectAllDataFrame);
@@ -134,7 +140,8 @@ objectAllPiechart <- DBFunctionDataFrameToPiechart(objectAllDataFrame);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-All_Piechart"), objectAllPiechart);
 # DB object list all plot
 grid.arrange(objectAllBarplot, objectAllPiechart, nrow = 1, ncol = 2);
-rm(ObjectListDataFrame); rm(ObjectSumDataFrame); rm(objectSumBarplot);
+rm(xlsFile); rm(ObjectListDataFrame);
+rm(ObjectSumDataFrame); rm(objectSumBarplot); rm(objectSumPiechart);
 rm(objectAllDataFrame); rm(objectAllBarplot); rm(objectAllPiechart);
 ## DB StoredProc
 # DB StoreProc count

@@ -15,8 +15,8 @@ The best tool to do statistical analysis and graph is R (integrated in SQL Serve
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-#setwd("D:/Disk_X/axon/SqlServerProfiler");
-setwd("E:/Disk_X/SqlServerProfiler/");
+setwd("D:/Disk_X/axon/SqlServerProfiler");
+#setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
@@ -155,17 +155,22 @@ xlsFile <- "Data/HYSEC-Object_list.xls";
 ObjectListDataFrame <- XlsToDataFrame(xlsFile);
 ObjectListDataFrame$ObjectName <- as.character(ObjectListDataFrame$ObjectName);
 ObjectListDataFrame$ObjectCount <- as.integer(as.character(ObjectListDataFrame$ObjectCount));
-# DB object list sum fonctions
-ObjectSumDataFrame <- SummarizeDBFunctionDataFrame(ObjectListDataFrame, "Function");
+# DB object list group fonctions
+ObjectSumDataFrame <- ObjectListGroupFunctionsDataFrame(ObjectListDataFrame, "Function");
+# DB object list Barplot
 objectSumBarplot <- DBObjectDataFrameToBarplot(ObjectSumDataFrame);
-objectSumBarplot;
+# DB object list Piechart
+objectSumPiechart <- GenericPiechartFromTwoColumnDataFrame(ObjectSumDataFrame, mainTitle = "Object Summary");
+#
+grid.arrange(objectSumBarplot, objectSumPiechart, nrow = 1, ncol = 2);
 # DB object list all fonctions
 objectAllDataFrame <- SummarizeAllDBFunctionDataFrame(ObjectListDataFrame, "Function");
 objectAllBarplot <- DBFunctionDataFrameToBarplot(objectAllDataFrame);
 objectAllPiechart <- DBFunctionDataFrameToPiechart(objectAllDataFrame);
 # DB object list all plot
 grid.arrange(objectAllBarplot, objectAllPiechart, nrow = 1, ncol = 2);
-rm(ObjectListDataFrame); rm(ObjectSumDataFrame); rm(objectSumBarplot);
+rm(xlsFile); rm(ObjectListDataFrame);
+rm(ObjectSumDataFrame); rm(objectSumBarplot); rm(objectSumPiechart);
 rm(objectAllDataFrame); rm(objectAllBarplot); rm(objectAllPiechart);
 ```
 
