@@ -239,7 +239,10 @@ fnParamsDF <- DataFrameWithoutWithTotal(countFuncWithout,
 print(head(fnParamsDF));
 # Function Analysis barplot
 fnParamsBarplot <- FunctionWithoutWithTotalDFToBarplot(fnParamsDF, OutputType);
-fnParamsBarplot;
+# Function Analysis piechart
+fnParamsPiechart <- FunctionWithoutWithTotalDFToPiechart(fnParamsDF, OutputType = "Function");
+#
+grid.arrange(fnParamsBarplot, fnParamsPiechart, nrow = 1, ncol = 2);
 # Function Analysis boxplot
 fnParamsBoxplot <- DBFunctionDataFrameToBoxplot(fnParamsDataFrameFat);
 # Function Analysis density plot
@@ -250,7 +253,8 @@ grid.arrange(fnParamsBoxplot, fnParamsDensityplot, nrow = 1, ncol = 2);
 rm(xlsFile); rm(countFunc);
 rm(functionParamsDataFrame); rm(fnParamsDataFrameSlim); rm(fnParamsDataFrameFat);
 rm(countFuncWith); rm(countFuncWithout); rm(OutputType); rm(fnParamsDF);
-rm(fnParamsBarplot); rm(fnParamsBoxplot); rm(fnParamsDensityplot);
+rm(fnParamsBarplot); rm(fnParamsPiechart);
+rm(fnParamsBoxplot); rm(fnParamsDensityplot);
 ```
 
 ## Procedure Analysis

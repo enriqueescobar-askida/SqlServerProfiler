@@ -341,13 +341,13 @@ xlsFile <- "Data/HYSEC-Function_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
 sqlDataFrame$FunctionName <- as.character(sqlDataFrame$FunctionName);
 sqlDataFrame$FunctionID <- as.integer(as.character(sqlDataFrame$FunctionID));
-sqlDataFrame$FunctionType <- as.integer(as.character(sqlDataFrame$FunctionType));
+sqlDataFrame$FunctionType <- as.character(sqlDataFrame$FunctionType);
 sqlDataFrame$FunctionDesc <- as.character(sqlDataFrame$FunctionDesc);
 sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCreated)); #
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
 print(paste0("Function list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
+# rm() FunctionType || FunctionDesc
 rm(xlsFile); rm(sqlDataFrame);
 # Function Analysis param list
 xlsFile <- "Data/HYSEC-Function_listParams.xls";
@@ -390,8 +390,12 @@ fnParamsDF <- DataFrameWithoutWithTotal(countFuncWithout,
 print(head(fnParamsDF));
 # Function Analysis barplot
 fnParamsBarplot <- FunctionWithoutWithTotalDFToBarplot(fnParamsDF, OutputType);
-fnParamsBarplot;
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), fnParamsBarplot);
+# Function Analysis piechart
+fnParamsPiechart <- FunctionWithoutWithTotalDFToPiechart(fnParamsDF, OutputType = "Function");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), fnParamsPiechart);
+#
+grid.arrange(fnParamsBarplot, fnParamsPiechart, nrow = 1, ncol = 2);
 # Function Analysis boxplot
 fnParamsBoxplot <- DBFunctionDataFrameToBoxplot(fnParamsDataFrameFat);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Boxplot"), fnParamsBoxplot);
@@ -403,8 +407,9 @@ grid.arrange(fnParamsBoxplot, fnParamsDensityplot, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(countFunc);
 rm(functionParamsDataFrame); rm(fnParamsDataFrameSlim); rm(fnParamsDataFrameFat);
-rm(countFuncWith); rm(countFuncWithout); rm(OutputType); rm(fnParamsDF);
-rm(fnParamsBarplot); rm(fnParamsBoxplot); rm(fnParamsDensityplot);
+rm(countFuncWith); rm(countFuncWithout); rm(OutputType);
+rm(fnParamsDF); rm(fnParamsBarplot); rm(fnParamsPiechart);
+rm(fnParamsBoxplot); rm(fnParamsDensityplot);
 ## PKey Analysis
 # PKey Analysis count
 xlsFile <- "Data/HYSEC-PKeys_count.xls";

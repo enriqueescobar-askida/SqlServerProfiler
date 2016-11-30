@@ -566,7 +566,8 @@ GenericPiechartFromTwoColumnDataFrame <- function(aDataFrame = NULL, mainTitle =
     mainTitle <- paste0(mainTitle, " PieChart");
     # lists
     PercentList <- round(aDataFrame$Y / sum(aDataFrame$Y) * 100, digits = 1);
-    labelList <- paste0(aDataFrame$X," ",PercentList, "%");
+    labelList <- paste0(aDataFrame$X, " ", PercentList, "%");
+    write(paste0("labelList: ", aDataFrame), stdout());
     ColorList <- heat.colors(length(PercentList));
     # graph
     aPierchart <- ggplot(aDataFrame,
@@ -796,7 +797,6 @@ StoredProcWithoutWithTotalDFToPiechart <- function(woWithTotalDataFrame = NULL,
     yTitle <- colnames(rev(woWithTotalDataFrame)[1]);
     mainTitle <- paste0(OutputType, " List Piechart");
     # graph
-    piePlot <- NULL;
     piePlot <- ggplot(woWithTotalDataFrame, aes(x = factor(1), y = PercentList, fill = labelList)) +
       # make stacked bar chart with black border
       geom_bar(stat = "identity", color = "grey80", width = 1) +
@@ -872,6 +872,60 @@ DBRowCountFrameToBarplot <- function(usageDataFrame = NULL) {
     return(barplot);
   }
 }
+#' Title  FunctionWithoutWithTotalDFToPiechart
+#'
+#' @param woWithTotalDataFrame 
+#' @param OutputType 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+FunctionWithoutWithTotalDFToPiechart <- function(woWithTotalDataFrame = NULL,
+                                                OutputType = "") {
+  
+  if (is.null(woWithTotalDataFrame)) {
+    
+    return(NULL);
+  } else {
+    # rm totals/ last column & save colnames
+    woWithTotalDataFrame <- rev(woWithTotalDataFrame)[-1];
+    myColNames <- colnames(woWithTotalDataFrame);
+    # rm colname and transpose and rm new colname
+    colnames(woWithTotalDataFrame) <- NULL;
+    woWithTotalDataFrame <- t(woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    # add columns and replace colname
+    woWithTotalDataFrame <- cbind(myColNames, woWithTotalDataFrame);
+    colnames(woWithTotalDataFrame) <- NULL;
+    colnames(woWithTotalDataFrame) <- c(paste0(OutputType, "Types"), paste0(OutputType, "Count"));
+    # cast to data frame
+    woWithTotalDataFrame <- tibble::as_data_frame(woWithTotalDataFrame);
+    woWithTotalDataFrame[[2]] <- as.numeric(woWithTotalDataFrame[[2]]);
+    # check colname
+    write(colnames(woWithTotalDataFrame), stdout());
+    # titles
+    xTitle <- colnames(woWithTotalDataFrame)[1];
+    yTitle <- colnames(woWithTotalDataFrame)[2];
+    mainTitle <- paste0(OutputType, " Type List Piechart");
+    PercentList <- round(woWithTotalDataFrame[[2]] / sum(woWithTotalDataFrame[[2]]) * 100, digits = 1);
+    labelList <- paste0(woWithTotalDataFrame[[1]], " ", PercentList, "%");
+    ColorList <- heat.colors(length(PercentList));
+    # graph
+    piePlot <- ggplot(woWithTotalDataFrame,
+                      aes(x = factor(1), y = PercentList, fill = labelList)) +
+                # make stacked bar chart with black border
+                geom_bar(stat = "identity", color = "grey80", width = 1) +
+                # add the percents to the interior of the chart
+                # geom_text(aes(x = 1.5, y = PercentList, label = labelList), size = 4) +
+                ggtitle(mainTitle) +
+                xlab(xTitle) +
+                ylab(yTitle) +
+                coord_polar(theta = "y");
+    
+    return(piePlot);
+  }
+}
 #' Title  FunctionWithoutWithTotalDFToBarplot
 #'
 #' @param woWithTotalDataFrame
@@ -910,11 +964,11 @@ FunctionWithoutWithTotalDFToBarplot <- function(woWithTotalDataFrame = NULL,
     # graph
     aBarplot <- ggplot(woWithTotalDataFrame,
                        aes(x = "", y = FnCount, fill = FnTypes)) +
-      labs(fill = xTitle) +
-      geom_bar(width = 1, stat = "identity") +
-      ggtitle(mainTitle) +
-      xlab(xTitle) +
-      ylab(yTitle);
+                labs(fill = xTitle) +
+                geom_bar(width = 1, stat = "identity") +
+                ggtitle(mainTitle) +
+                xlab(xTitle) +
+                ylab(yTitle);
     
     return(aBarplot);
   }
