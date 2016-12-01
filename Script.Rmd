@@ -190,14 +190,18 @@ xlsFile <- "Data/HYSEC-Function_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
 sqlDataFrame$FunctionName <- as.character(sqlDataFrame$FunctionName);
 sqlDataFrame$FunctionID <- as.integer(as.character(sqlDataFrame$FunctionID));
-sqlDataFrame$FunctionType <- as.integer(as.character(sqlDataFrame$FunctionType));
+sqlDataFrame$FunctionType <- as.character(sqlDataFrame$FunctionType);
 sqlDataFrame$FunctionDesc <- as.character(sqlDataFrame$FunctionDesc);
 sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCreated)); #
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
 print(paste0("Function list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
-rm(xlsFile); rm(sqlDataFrame);
+fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "FunctionType");
+fnTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "FunctionType");
+#
+grid.arrange(fnTypeBarplot, fnTypePiechart, nrow = 1, ncol = 2);
+# rm
+rm(xlsFile); rm(sqlDataFrame); rm(fnTypeBarplot); rm(fnTypePiechart);
 # Function Analysis param list
 xlsFile <- "Data/HYSEC-Function_listParams.xls";
 functionParamsDataFrame <- XlsToDataFrame(xlsFile);

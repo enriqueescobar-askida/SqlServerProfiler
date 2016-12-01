@@ -1,3 +1,46 @@
+#' Title  ColumnDataFrameToFrequencyTable
+#'
+#' @param aDataFrame 
+#' @param columnName 
+#'
+#' @return table
+#' @export TBD
+#'
+#' @examples TBD
+ColumnDataFrameToFrequencyTable <- function(aDataFrame = NULL, columnName = NULL) {
+  tableFrequency <- NULL;
+  
+  if (!is.null(aDataFrame) & !is.null(columnName)) {
+    tableFrequency <- table(aDataFrame[columnName]);
+  }
+  
+  return(tableFrequency);
+}
+#' Title  FrequencyTableToTibble
+#'
+#' @param aTable 
+#' @param aTitle 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+FrequencyTableToTibble <- function(aTable = NULL, aTitle = NULL) {
+  aDataFrame <- NULL
+  
+  if (!is.null(aTable) & is.table(aTable)) {
+    aDataFrame <- tibble::as_data_frame(aTable);
+  }
+  if (!is.null(aTitle)) {
+    names(aDataFrame)[1] <- paste0(aTitle, " List");
+    names(aDataFrame)[2] <- paste0(aTitle, " Count");
+  } else {
+    colnames(aDataFrame) <- paste0(colnames(aDataFrame), " List");
+  }
+  print(aDataFrame);
+  
+  return(aDataFrame)
+}
 library(xlsx);
 #' Title  TraceXmlXlsToTibble
 #'
@@ -165,7 +208,12 @@ TraceXmlXlsToCsv <- function(aTibble = data.frame(NULL), filePath = ""){
     return(TRUE);
   }
 }
-
+#' Title  ScreenTxtFiles
+#'
+#' @param fileList
+#' @export TBD
+#'
+#' @examples TBD
 ScreenTxtFiles <- function(fileList = list()) {
   
   for (singleFile in fileList) {
@@ -187,7 +235,6 @@ ScreenTxtFiles <- function(fileList = list()) {
     write.csv2(termDocDataFrameSortDesc, file = singleWordcloudFreq, row.names = FALSE);
   }
 }
-
 library(tm);
 library(wordcloud);
 #' Title
@@ -421,6 +468,85 @@ ConstraintToTableNameFrequency <- function(aDataFrame = NULL) {
 }
 library(ggplot2);
 library(gridExtra);
+#' Title  DataFrameColumnToBarplot
+#'
+#' @param aDataFrame 
+#' @param columnName 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameColumnToBarplot <- function(aDataFrame = NULL, columnName = NULL) {
+  aBarplot <- NULL;
+  
+  if (!is.null(aDataFrame) & !is.null(columnName)) {
+    aTable <- ColumnDataFrameToFrequencyTable(aDataFrame, columnName);
+    aTibble <- FrequencyTableToTibble(aTable, aTitle = columnName);
+    # titles
+    xTitle <- colnames(aTibble)[1];
+    yTitle <- colnames(aTibble)[2];
+    mainTitle <- paste0(columnName, " Barplot");
+    colnames(aTibble) <- NULL;
+    names(aTibble)[1] <- "X";
+    names(aTibble)[2] <- "Y";
+    # calculations
+    PercentList <- round(aTibble$Y / sum(aTibble$Y) * 100);
+    TypeList <- paste0(aTibble$X," ",PercentList, "%");
+    ColorList <- heat.colors(length(TypeList));
+    # graph
+    aBarplot <- ggplot(aTibble,
+                       aes(x = "", y = Y, fill = TypeList)) +
+                labs(fill = xTitle) +
+                geom_bar(width = 1, stat = "identity") +
+                ggtitle(mainTitle) +
+                xlab(xTitle) +
+                ylab(yTitle);
+  }
+  
+  return(aBarplot);
+}
+#' Title  DataFrameColumnToPiechart
+#'
+#' @param aDataFrame 
+#' @param columnName 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameColumnToPiechart <- function(aDataFrame = NULL, columnName = NULL) {
+  aPiechart <- NULL;
+  
+  if (!is.null(aDataFrame) & !is.null(columnName)) {
+    aTable <- ColumnDataFrameToFrequencyTable(aDataFrame, columnName);
+    aTibble <- FrequencyTableToTibble(aTable, aTitle = columnName);
+    # titles
+    xTitle <- colnames(aTibble)[1];
+    yTitle <- colnames(aTibble)[2];
+    mainTitle <- paste0(columnName, " Piechart");
+    colnames(aTibble) <- NULL;
+    names(aTibble)[1] <- "X";
+    names(aTibble)[2] <- "Y";
+    # calculations
+    PercentList <- round(aTibble$Y / sum(aTibble$Y) * 100);
+    TypeList <- paste0(aTibble$X," ",PercentList, "%");
+    ColorList <- heat.colors(length(TypeList));
+    # graph
+    aPiechart <- ggplot(aTibble,
+                      aes(x = factor(1), y = PercentList, fill = TypeList)) +
+                  # make stacked bar chart with black border
+                  geom_bar(stat = "identity", color = "grey80", width = 1) +
+                  # add the percents to the interior of the chart
+                  #geom_text(aes(x = 1.5, y = PercentList, label = FunctionTypes), size = 4) +
+                  ggtitle(mainTitle) +
+                  xlab(xTitle) +
+                  ylab(yTitle) +
+                  coord_polar(theta = "y");
+  }
+  
+  return(aPiechart);
+}
 #' Title  GgplotToPng
 #'
 #' @param pngFilePath
