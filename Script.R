@@ -482,6 +482,13 @@ sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinit
 sqlDataFrame$UsesDBCollation <- as.logical(as.character(sqlDataFrame$UsesDBCollation));
 sqlDataFrame$IsSystemNamed <- as.logical(as.character(sqlDataFrame$IsSystemNamed));
 print(head(sqlDataFrame));
+# Index Analysis list histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "IndexPerTable");
+indexesHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Index per Table");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), indexesHistogram);
+# rm
+rm(countIndex); rm(xlsFile); rm(sqlDataFrame); rm(indexesHistogram);
 # Index Analysis type list
 xlsFile <- "Data/HYSEC-Index_listTypes.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -496,8 +503,8 @@ sqlDataFrame$ConstraintType <- as.character(sqlDataFrame$ConstraintType);
 sqlDataFrame$AllocUnitID <- as.numeric(as.character(sqlDataFrame$AllocUnitID));
 print(paste0("Index Type list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
-rm(countIndex); rm(xlsFile); rm(sqlDataFrame);
+# rm
+rm(xlsFile); rm(sqlDataFrame);
 ## Constraint Analysis
 # Constraint Analysis List
 xlsFile <- "Data/HYSEC-Constraint_list.xls";

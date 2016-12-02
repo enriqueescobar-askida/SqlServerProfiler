@@ -566,6 +566,30 @@ GgplotToPng <- function(pngFilePath = "", barplot = NULL) {
     return(TRUE);
   }
 }
+TwoColumnDataFrameToHistogram <- function(aDataFrame = NULL, mainTitle = "") {
+  aHist <- NULL;
+  
+  if (is.null(aDataFrame)) {
+    
+    return(aHist);
+  } else {
+    # titles
+    xTitle <- names(aDataFrame)[1];
+    yTitle <- names(aDataFrame)[2];
+    colnames(aDataFrame) <- NULL;
+    names(aDataFrame)[1] <- "X";
+    names(aDataFrame)[2] <- "Y";
+    # graph
+    aHist <- ggplot(aDataFrame, aes(Y)) +
+      geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      ggtitle(mainTitle) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(aHist);
+  }
+}
 #' Title  TwoColumnDataFrameToBarlot
 #'
 #' @param aDataFrame 
