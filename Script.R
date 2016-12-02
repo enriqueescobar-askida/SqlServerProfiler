@@ -437,8 +437,14 @@ sqlDataFrame$PKModified <- as.numeric(as.character(sqlDataFrame$PKModified));
 sqlDataFrame$PKOrdinal <- as.integer(as.character(sqlDataFrame$PKOrdinal));
 print(paste0("PKey list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
-rm(xlsFile); rm(countPKeys); rm(sqlDataFrame);
+# PKey Analysis list histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "PrincipalKeyTable");
+principalKeyHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "PrincipalKey per Table");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), principalKeyHistogram);
+# rm
+rm(countPKeys); rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTible); rm(pKeysHistogram);
 ## FKey Analysis
 # FKey Analysis count
 xlsFile <- "Data/HYSEC-FKeys_count.xls";
@@ -488,7 +494,8 @@ aTibble <- FrequencyTableToTibble(aTable, aTitle = "IndexPerTable");
 indexesHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Index per Table");
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), indexesHistogram);
 # rm
-rm(countIndex); rm(xlsFile); rm(sqlDataFrame); rm(indexesHistogram);
+rm(countIndex); rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTible); rm(indexesHistogram);
 # Index Analysis type list
 xlsFile <- "Data/HYSEC-Index_listTypes.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
