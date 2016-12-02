@@ -203,6 +203,8 @@ GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Procs_Barplot"), storeProcParamsBar
 # DB StoreProc piechart
 storeProcParamsPiechart <- StoredProcWithoutWithTotalDFToPiechart(storeProcParamsDF, OutputType);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Procs_Piechart"), storeProcParamsPiechart);
+#
+grid.arrange(storeProcParamsBarplot, storeProcParamsPiechart, nrow = 1, ncol = 2);
 # DB StoreProc boxplot
 storeProcParamsBoxplot <- DBStoreProcDataFrameToBoxplot(storedProcParamDataFrameFat);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Procs_Boxplot"), storeProcParamsBoxplot);
