@@ -1,6 +1,6 @@
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
@@ -67,7 +67,6 @@ serverLinked$ModificationDate <- as.numeric(as.character(serverLinked$Modificati
 serverLinked$IsLinked <- as.logical(as.character(serverLinked$IsLinked));
 head(serverLinked); rm(serverLinked);
 # Server DB spec
-serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
 serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
@@ -213,7 +212,8 @@ storeProcParamsDensityplot <- DBStoreProcDataFrameToDensityplot(storedProcParamD
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Procs_Densityplot"), storeProcParamsDensityplot);
 #
 grid.arrange(storeProcParamsBoxplot, storeProcParamsDensityplot, nrow = 1, ncol = 2);
-rm(storedProcParamDataFrame); rm(storedProcParamDataFrameFat); rm(countStoreProcWith);
+# rm
+rm(storedProcParamDataFrame); rm(storedProcParamDataFrameFat); rm(countStoreProc); rm(countStoreProcWith);
 rm(countStoreProcWithout); rm(storeProcParamsDF); rm(OutputType); rm(storeProcParamsBarplot);
 rm(storeProcParamsPiechart); rm(storeProcParamsBoxplot); rm(storeProcParamsDensityplot);
 # DB Table Count CSV
@@ -232,12 +232,12 @@ print(head(tableRowCountDataFrame));
 aMean <- mean(tableRowCountDataFrame$RowRepeats);
 tableRowCountDataFrame <- subset(tableRowCountDataFrame, RowRepeats > aMean);
 print(head(tableRowCountDataFrame));
+# DB Table Count barplot
 tableRowCountBarplot <- DBRowCountFrameToBarplot(tableRowCountDataFrame);
 tableRowCountBarplot;
-# DB Table Count DROP
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), tableRowCountBarplot);
 # rm()
-rm(xlsFile); rm(tableRowCountDataFrame); rm(aMean); rm(tableRowCountDataFrame); rm(tableRowCountBarplot);
+rm(xlsFile); rm(tableRowCountDataFrame); rm(aMean); rm(tableRowCountBarplot);
 ## DB Table Analysis
 # DB Table Analysis count
 xlsFile <- "Data/HYSEC-Table_count.xls";
@@ -473,7 +473,7 @@ fKeyHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "ForeignKey 
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), fKeyHistogram);
 # rm
 rm(countFKeys); rm(xlsFile); rm(sqlDataFrame);
-rm(aTable); rm(aTibble); rm(principalKeyHistogram);
+rm(aTable); rm(aTibble); rm(fKeyHistogram);
 ## Index Analysis
 # Index Analysis count
 xlsFile <- "Data/HYSEC-Index_count.xls";

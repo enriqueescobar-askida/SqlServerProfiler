@@ -15,8 +15,8 @@ The best tool to do statistical analysis and graph is R (integrated in SQL Serve
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
@@ -80,8 +80,6 @@ serverRunning$DaysRunning <- as.numeric(as.character(serverRunning$DaysRunning))
 head(serverRunning); rm(serverRunning);
 # Server Linked
 serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
-# Server Linked
-serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
 serverLinked$ServerName <- as.character(serverLinked$ServerName);
 serverLinked$LinkedServerID <- as.integer(as.character(serverLinked$LinkedServerID));
 serverLinked$LinkedServer <- as.character(serverLinked$LinkedServer);
@@ -90,6 +88,7 @@ serverLinked$Provider <- as.character(serverLinked$Provider);
 serverLinked$DataSource <- as.character(serverLinked$DataSource);
 serverLinked$ModificationDate <- as.numeric(as.character(serverLinked$ModificationDate));
 serverLinked$IsLinked <- as.logical(as.character(serverLinked$IsLinked));
+head(serverLinked); rm(serverLinked);
 # Server DB spec
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
@@ -127,6 +126,7 @@ usagePlot <- DBUsageDataFrameToBarplot(serverDbUsageList);
 usagePieChart <- DBUsageDataFrameToPiechart(serverDbUsageList);
 # Server DB usage plots all
 grid.arrange(usagePlot, usagePieChart, nrow = 1, ncol = 2);
+# rm
 rm(serverDbUsageList); rm(usagePlot); rm(usagePieChart);
 ## DB All parameter
 # DB All parameter list
@@ -196,7 +196,9 @@ sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCre
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
 print(paste0("Function list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
+# Function Analysis list barplot
 fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "FunctionType");
+# Function Analysis list piechart
 fnTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "FunctionType");
 #
 grid.arrange(fnTypeBarplot, fnTypePiechart, nrow = 1, ncol = 2);
@@ -256,8 +258,8 @@ grid.arrange(fnParamsBoxplot, fnParamsDensityplot, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(countFunc);
 rm(functionParamsDataFrame); rm(fnParamsDataFrameSlim); rm(fnParamsDataFrameFat);
-rm(countFuncWith); rm(countFuncWithout); rm(OutputType); rm(fnParamsDF);
-rm(fnParamsBarplot); rm(fnParamsPiechart);
+rm(countFuncWith); rm(countFuncWithout); rm(OutputType);
+rm(fnParamsDF); rm(fnParamsBarplot); rm(fnParamsPiechart);
 rm(fnParamsBoxplot); rm(fnParamsDensityplot);
 ```
 
@@ -329,7 +331,8 @@ storeProcParamsBoxplot <- DBStoreProcDataFrameToBoxplot(storedProcParamDataFrame
 storeProcParamsDensityplot <- DBStoreProcDataFrameToDensityplot(storedProcParamDataFrameFat);
 #
 grid.arrange(storeProcParamsBoxplot, storeProcParamsDensityplot, nrow = 1, ncol = 2);
-rm(storedProcParamDataFrame); rm(storedProcParamDataFrameFat); rm(countStoreProcWith);
+# rm
+rm(storedProcParamDataFrame); rm(storedProcParamDataFrameFat); rm(countStoreProc); rm(countStoreProcWith);
 rm(countStoreProcWithout); rm(storeProcParamsDF); rm(OutputType); rm(storeProcParamsBarplot);
 rm(storeProcParamsPiechart); rm(storeProcParamsBoxplot); rm(storeProcParamsDensityplot);
 ```
@@ -353,11 +356,11 @@ print(head(tableRowCountDataFrame));
 aMean <- mean(tableRowCountDataFrame$RowRepeats);
 tableRowCountDataFrame <- subset(tableRowCountDataFrame, RowRepeats > aMean);
 print(head(tableRowCountDataFrame));
+# DB Table Count barplot
 tableRowCountBarplot <- DBRowCountFrameToBarplot(tableRowCountDataFrame);
 tableRowCountBarplot;
-# DB Table Count DROP
 # rm()
-rm(xlsFile); rm(tableRowCountDataFrame); rm(aMean); rm(tableRowCountDataFrame); rm(tableRowCountBarplot);
+rm(xlsFile); rm(tableRowCountDataFrame); rm(aMean);  rm(tableRowCountBarplot);
 ```
 
 ## Table Analysis
@@ -523,8 +526,13 @@ sqlDataFrame$PKModified <- as.numeric(as.character(sqlDataFrame$PKModified));
 sqlDataFrame$PKOrdinal <- as.integer(as.character(sqlDataFrame$PKOrdinal));
 print(paste0("PKey list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
-rm(xlsFile); rm(countPKeys); rm(sqlDataFrame);
+# PKey Analysis list histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "PrincipalKeyTable");
+principalKeyHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "PrincipalKey per Table");
+# rm
+rm(countPKeys); rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTibble); rm(principalKeyHistogram);
 ```
 
 ## Foreign Key Analysis
@@ -553,8 +561,13 @@ sqlDataFrame$OnDelete <- as.character(sqlDataFrame$OnDelete);
 sqlDataFrame$OnUpdate <- as.character(sqlDataFrame$OnUpdate);
 print(paste0("FKeys list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
+# FKey Analysis list histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "PrincipalKeyTable");
+fKeyHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "ForeignKey per Table");
+# rm
 rm(countFKeys); rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTibble); rm(fKeyHistogram);
 ```
 
 ## Index Analysis
@@ -582,6 +595,13 @@ sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinit
 sqlDataFrame$UsesDBCollation <- as.logical(as.character(sqlDataFrame$UsesDBCollation));
 sqlDataFrame$IsSystemNamed <- as.logical(as.character(sqlDataFrame$IsSystemNamed));
 print(head(sqlDataFrame));
+# Index Analysis list histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "IndexPerTable");
+indexesHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Index per Table");
+# rm
+rm(countIndex); rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTibble); rm(indexesHistogram);
 # Index Analysis type list
 xlsFile <- "Data/HYSEC-Index_listTypes.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -596,8 +616,8 @@ sqlDataFrame$ConstraintType <- as.character(sqlDataFrame$ConstraintType);
 sqlDataFrame$AllocUnitID <- as.numeric(as.character(sqlDataFrame$AllocUnitID));
 print(paste0("Index Type list count: ", nrow(sqlDataFrame)));
 print(head(sqlDataFrame));
-# rm()
-rm(countIndex); rm(xlsFile); rm(sqlDataFrame);
+# rm
+rm(xlsFile); rm(sqlDataFrame);
 ```
 Verify Constraint Type.
 Verify if can lock page.
@@ -625,5 +645,5 @@ sqlDataFrame <- ConstraintToTableNameFrequency(sqlDataFrame);
 constraintBarplot <- TwoColumnDataFrameToBarlot(sqlDataFrame);
 constraintBarplot;
 # rm()
-rm(sqlFile); rm(sqlDataFrame); rm(constraintBarplot);
+rm(xlsFile); rm(sqlDataFrame); rm(constraintBarplot);
 ```
