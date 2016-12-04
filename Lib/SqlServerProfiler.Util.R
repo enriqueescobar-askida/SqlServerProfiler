@@ -16,31 +16,6 @@ ColumnDataFrameToFrequencyTable <- function(aDataFrame = NULL, columnName = NULL
   
   return(tableFrequency);
 }
-#' Title  FrequencyTableToTibble
-#'
-#' @param aTable 
-#' @param aTitle 
-#'
-#' @return tibble
-#' @export TBD
-#'
-#' @examples TBD
-FrequencyTableToTibble <- function(aTable = NULL, aTitle = NULL) {
-  aDataFrame <- NULL
-  
-  if (!is.null(aTable) & is.table(aTable)) {
-    aDataFrame <- tibble::as_data_frame(aTable);
-  }
-  if (!is.null(aTitle)) {
-    names(aDataFrame)[1] <- paste0(aTitle, " List");
-    names(aDataFrame)[2] <- paste0(aTitle, " Count");
-  } else {
-    colnames(aDataFrame) <- paste0(colnames(aDataFrame), " List");
-  }
-  print(aDataFrame);
-  
-  return(aDataFrame)
-}
 #' Title  IsConvertibleToDate
 #'
 #' @param anObject 
@@ -75,49 +50,25 @@ IsConvertibleToDate <- function(anObject = "") {
 #'
 #' @examples TBD
 IsEvenInteger <- function(aInt = 0) {
-  
   boo <- FALSE;
   
   if (is.integer(aInt)) {
-    
     boo <- (aInt %% 2) == 0;
   } else {
-    
     boo <- FALSE;
   }
   
   return(boo);
 }
 library(data.table);
-#' Title  TrimXmlXlsToTibble
-#'
-#' @param aTibble 
-#'
-#' @return data.frame
-#' @export TBD
-#'
-#' @examples TBD
-TrimXmlXlsToTibble <- function(aTibble = NULL) {
-  nbLines <- nrow(aTibble);
-  aDataFr <- data.frame(NULL);
-  count <- 0;
-  
-  for (aLine in seq(nbLines))
-  {
-    if (IsConvertibleToDate(aTibble[[aLine,]])) {
-    } else {
-      count <- count + 1;
-      aString <- as.character(aTibble[[aLine,]]);
-      print(aString);
-      aDataFr <- rbind(aDataFr, aString);
-    }
-  }
-  colnames(aDataFr) <- c("SqlTrace");
-  aDataFr <- data.frame(lapply(aDataFr, as.character), stringsAsFactors = FALSE);
-  print(count);
-  
-  return(tibble::as_data_frame(aDataFr));
-}
+# import tibble
+source("Lib/tibble.Util.R");
+### import wordcloud
+source("Lib/wordcloud.Util.R");
+### import xlsx
+source("Lib/xlsx.Util.R");
+### ggplot2
+source("Lib/ggplot2.Util.R");
 #' Title  ScreenXmlXlsFiles
 #'
 #' @param fileList 
@@ -209,10 +160,6 @@ ScreenTxtFiles <- function(fileList = list()) {
     write.csv2(termDocDataFrameSortDesc, file = singleWordcloudFreq, row.names = FALSE);
   }
 }
-### import wordloud
-source("Lib/wordloud.Util.R");
-### import xlsx
-source("Lib/xlsx.Util.R");
 #' Title  XlsFileToPng
 #'
 #' @param xlsFilePath 
@@ -340,5 +287,3 @@ ConstraintToTableNameFrequency <- function(aDataFrame = NULL) {
   
   return(aDF);
 }
-### ggplot2
-source("Lib/ggplot2.Util.R");

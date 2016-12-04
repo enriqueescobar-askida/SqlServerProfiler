@@ -1,5 +1,6 @@
 ### import
 library(xlsx);
+require(tibble);
 ###
 ### functions
 ###
