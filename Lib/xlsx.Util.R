@@ -72,3 +72,37 @@ TraceXmlXlsToTibble <- function(filePath = "") {
     return(tibble::as_data_frame(xlsFile[-2]));
   }
 }
+#' Title  ScreenXmlXlsFiles
+#'
+#' @param fileList 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+ScreenXmlXlsFiles <- function(fileList = list()){
+  
+  if (is.null(fileList)) {
+    
+    return(NULL);
+  } else {
+    singleDataFrame <- NULL;
+    
+    if (length(fileList) < 2) {
+      oneFile <- unlist(fileList[[1]]);
+      singleDataFrame <- TraceXmlXlsToTibble(oneFile);
+    } else {
+      
+      for (singleFile in fileList) {
+        print(unlist(singleFile));
+        aDf <- TraceXmlXlsToTibble(singleFile);
+        singleDataFrame <- rbind(singleDataFrame, aDf);
+      }
+    }
+    singleDataFrame <- data.frame(lapply(singleDataFrame, as.character), stringsAsFactors = FALSE);
+    colnames(singleDataFrame) <- c("SqlTrace");
+    
+    return(tibble::as_data_frame(singleDataFrame));
+  }
+}
+

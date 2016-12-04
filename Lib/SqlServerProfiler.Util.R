@@ -60,47 +60,26 @@ IsEvenInteger <- function(aInt = 0) {
   
   return(boo);
 }
-library(data.table);
-# import tibble
-source("Lib/tibble.Util.R");
-### import wordcloud
-source("Lib/wordcloud.Util.R");
-### import xlsx
-source("Lib/xlsx.Util.R");
-### ggplot2
-source("Lib/ggplot2.Util.R");
-#' Title  ScreenXmlXlsFiles
+#' Title  XlsFileToPng
 #'
-#' @param fileList 
+#' @param xlsFilePath 
+#' @param dbName 
+#' @param chartName 
 #'
-#' @return tibble
+#' @return character
 #' @export TBD
 #'
 #' @examples TBD
-ScreenXmlXlsFiles <- function(fileList = list()){
+XlsFileToPng <- function(xlsFilePath = "", dbName = "", chartName = ""){
+  # extension time
+  # timeNow <- format(Sys.time(), "-%Y-%m-%d_%Hh%M");
+  # timeExt <- paste0(timeNow, chartName, ".png");
+  timeExt <- paste0(chartName, ".png");
+  # png
+  filePath <- gsub(".xls", timeExt, xlsFilePath);
+  #filePath <- gsub("SQL/", paste0("../../ODBC/", dbName, "-", Sys.getenv("ASKIDA_ENV"), "-"), filePath);
   
-  if (is.null(fileList)) {
-    
-    return(NULL);
-  } else {
-    singleDataFrame <- NULL;
-    
-    if (length(fileList) < 2) {
-      oneFile <- unlist(fileList[[1]]);
-      singleDataFrame <- TraceXmlXlsToTibble(oneFile);
-    } else {
-      
-      for (singleFile in fileList) {
-        print(unlist(singleFile));
-        aDf <- TraceXmlXlsToTibble(singleFile);
-        singleDataFrame <- rbind(singleDataFrame, aDf);
-      }
-    }
-    singleDataFrame <- data.frame(lapply(singleDataFrame, as.character), stringsAsFactors = FALSE);
-    colnames(singleDataFrame) <- c("SqlTrace");
-    
-    return(tibble::as_data_frame(singleDataFrame));
-  }
+  return(filePath);
 }
 #' Title  TraceXmlXlsToCsv
 #'
@@ -133,157 +112,13 @@ TraceXmlXlsToCsv <- function(aTibble = data.frame(NULL), filePath = ""){
     return(TRUE);
   }
 }
-#' Title  ScreenTxtFiles
-#'
-#' @param fileList
-#' @export TBD
-#'
-#' @examples TBD
-ScreenTxtFiles <- function(fileList = list()) {
-  
-  for (singleFile in fileList) {
-    print(singleFile);
-    singleText <- readLines(singleFile);
-    corpusWords <- Corpus(VectorSource(singleText));
-    # inspect(corpusWords);
-    termDocMatrixSortDesc <- sort(rowSums(as.matrix(TermDocumentMatrix(corpusWords))),
-                                  decreasing  = TRUE);
-    termDocDataFrameSortDesc <- data.frame(word = names(termDocMatrixSortDesc),
-                                           freq = termDocMatrixSortDesc);
-    termDocDataFrameSortDesc <- tibble::as_data_frame(termDocDataFrameSortDesc);
-    print(head(termDocDataFrameSortDesc));
-    singleWordcloudPng <- gsub(".txt", ".wordcloud.png", singleFile);
-    WordcloudToPng(termDocDataFrameSortDesc, singleWordcloudPng);
-    # WorcloudToBarplot(termDocDataFrameSortDesc);
-    singleWordcloudFreq <- gsub(".txt", ".freq.csv", singleFile);
-    print(singleWordcloudFreq);
-    write.csv2(termDocDataFrameSortDesc, file = singleWordcloudFreq, row.names = FALSE);
-  }
-}
-#' Title  XlsFileToPng
-#'
-#' @param xlsFilePath 
-#' @param dbName 
-#' @param chartName 
-#'
-#' @return character
-#' @export TBD
-#'
-#' @examples TBD
-XlsFileToPng <- function(xlsFilePath = "", dbName = "", chartName = ""){
-  # extension time
-  # timeNow <- format(Sys.time(), "-%Y-%m-%d_%Hh%M");
-  # timeExt <- paste0(timeNow, chartName, ".png");
-  timeExt <- paste0(chartName, ".png");
-  # png
-  filePath <- gsub(".xls", timeExt, xlsFilePath);
-  #filePath <- gsub("SQL/", paste0("../../ODBC/", dbName, "-", Sys.getenv("ASKIDA_ENV"), "-"), filePath);
-  
-  return(filePath);
-}
-#' Title  ObjectListGroupFunctionsDataFrame
-#'
-#' @param objectDataFrame
-#' @param functionFilter
-#'
-#' @return data.frame
-#' @export TBD
-#'
-#' @examples TBD
-ObjectListGroupFunctionsDataFrame <- function(objectDataFrame, functionFilter="Function"){
-  colnames <- colnames(objectDataFrame);
-  # separate functions
-  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
-  # sum functions
-  functionsDataFrame <- data.frame(functionFilter, sum(functionsDataFrame[[2]]));
-  colnames(functionsDataFrame) <- colnames;
-  # remove functions
-  objectDataFrame <- subset(objectDataFrame, !grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
-  # add sum functions
-  objectDataFrame <- rbind(objectDataFrame, functionsDataFrame);
-  
-  return(tibble::as_data_frame(objectDataFrame));
-}
-#' Title  SummarizeAllDBFunctionDataFrame
-#'
-#' @param objectDataFrame
-#' @param functionFilter
-#'
-#' @return data.frame
-#' @export TBD
-#'
-#' @examples TBD
-SummarizeAllDBFunctionDataFrame <- function(objectDataFrame, functionFilter="Function"){
-  colnames <- colnames(objectDataFrame);
-  # separate functions
-  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
-  colnames <- c("FunctionTypes", "FunctionCount");
-  colnames(functionsDataFrame) <- colnames;
-  
-  return(tibble::as_data_frame(functionsDataFrame));
-}
-#' Title  DataFrameFromColumns
-#'
-#' @param aDataFrame
-#' @param colName1
-#' @param colName2
-#' @param colName3
-#'
-#' @return data.frame
-#' @export TBD
-#'
-#' @examples TBD
-DataFrameFromColumns <- function(aDataFrame = NULL,
-                                 colName1 = "",
-                                 colName2 = "",
-                                 colName3 = ""){
-  columnList <- c(colName1, colName2, colName3);
-  write(columnList, stdout());
-  indexList <- which(colnames(aDataFrame) %in% columnList);
-  write(indexList, stdout());
-  
-  return(tibble::as_data_frame(aDataFrame[indexList]));
-}
-#' Title  DataFrameWithoutWithTotal
-#'
-#' @param intWithout
-#' @param intWith
-#' @param intTotal
-#' @param OutputType
-#'
-#' @return data.frame
-#' @export TBD
-#'
-#' @examples TBD
-DataFrameWithoutWithTotal <- function(intWithout = 1,
-                                      intWith = 1,
-                                      intTotal = 2,
-                                      OutputType = ""){
-  aDataFrame <- data.frame(NULL);
-  aDataFrame[1, 1] <- intWithout;
-  aDataFrame[1, 2] <- intWith;
-  aDataFrame[1, 3] <- intTotal;
-  colnames(aDataFrame) <- c(paste0(OutputType,"WithoutParameters"),
-                            paste0(OutputType,"WithParameters"),
-                            paste0(OutputType,"Total"));
-  
-  return(tibble::as_data_frame(aDataFrame));
-}
-#' Title  ConstraintToTableNameFrequency
-#'
-#' @param aDataFrame 
-#'
-#' @return tibble
-#' @export TBD
-#'
-#' @examples TBD
-ConstraintToTableNameFrequency <- function(aDataFrame = NULL) {
-  aDF <- data.frame(NULL);
-  
-  if (!is.null(aDataFrame)) {
-    aDF <- tibble::as_data_frame(sort(table(aDataFrame$TableName), decreasing = TRUE));
-    colnames(aDF) <- c("TableName", "ConstraintCount");
-  }
-  
-  return(aDF);
-}
+#
+library(data.table);
+# import tibble
+source("Lib/tibble.Util.R");
+### ggplot2
+source("Lib/ggplot2.Util.R");
+### import wordcloud
+source("Lib/wordcloud.Util.R");
+### import xlsx
+source("Lib/xlsx.Util.R");

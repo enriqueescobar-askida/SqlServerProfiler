@@ -3,6 +3,24 @@ library(tibble);
 ###
 ### functions
 ###
+#' Title  ConstraintToTableNameFrequency
+#'
+#' @param aDataFrame 
+#'
+#' @return tibble
+#' @export TBD
+#'
+#' @examples TBD
+ConstraintToTableNameFrequency <- function(aDataFrame = NULL) {
+  aDF <- data.frame(NULL);
+  
+  if (!is.null(aDataFrame)) {
+    aDF <- tibble::as_data_frame(sort(table(aDataFrame$TableName), decreasing = TRUE));
+    colnames(aDF) <- c("TableName", "ConstraintCount");
+  }
+  
+  return(aDF);
+}
 #' Title  FrequencyTableToTibble
 #'
 #' @param aTable 
@@ -27,6 +45,94 @@ FrequencyTableToTibble <- function(aTable = NULL, aTitle = NULL) {
   print(aDataFrame);
   
   return(aDataFrame)
+}
+#' Title  DataFrameFromColumns
+#'
+#' @param aDataFrame
+#' @param colName1
+#' @param colName2
+#' @param colName3
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameFromColumns <- function(aDataFrame = NULL,
+                                 colName1 = "",
+                                 colName2 = "",
+                                 colName3 = ""){
+  columnList <- c(colName1, colName2, colName3);
+  write(columnList, stdout());
+  indexList <- which(colnames(aDataFrame) %in% columnList);
+  write(indexList, stdout());
+  
+  return(tibble::as_data_frame(aDataFrame[indexList]));
+}
+#' Title  DataFrameWithoutWithTotal
+#'
+#' @param intWithout
+#' @param intWith
+#' @param intTotal
+#' @param OutputType
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameWithoutWithTotal <- function(intWithout = 1,
+                                      intWith = 1,
+                                      intTotal = 2,
+                                      OutputType = ""){
+  aDataFrame <- data.frame(NULL);
+  aDataFrame[1, 1] <- intWithout;
+  aDataFrame[1, 2] <- intWith;
+  aDataFrame[1, 3] <- intTotal;
+  colnames(aDataFrame) <- c(paste0(OutputType,"WithoutParameters"),
+                            paste0(OutputType,"WithParameters"),
+                            paste0(OutputType,"Total"));
+  
+  return(tibble::as_data_frame(aDataFrame));
+}
+#' Title  ObjectListGroupFunctionsDataFrame
+#'
+#' @param objectDataFrame
+#' @param functionFilter
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+ObjectListGroupFunctionsDataFrame <- function(objectDataFrame, functionFilter="Function"){
+  colnames <- colnames(objectDataFrame);
+  # separate functions
+  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  # sum functions
+  functionsDataFrame <- data.frame(functionFilter, sum(functionsDataFrame[[2]]));
+  colnames(functionsDataFrame) <- colnames;
+  # remove functions
+  objectDataFrame <- subset(objectDataFrame, !grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  # add sum functions
+  objectDataFrame <- rbind(objectDataFrame, functionsDataFrame);
+  
+  return(tibble::as_data_frame(objectDataFrame));
+}
+#' Title  SummarizeAllDBFunctionDataFrame
+#'
+#' @param objectDataFrame
+#' @param functionFilter
+#'
+#' @return data.frame
+#' @export TBD
+#'
+#' @examples TBD
+SummarizeAllDBFunctionDataFrame <- function(objectDataFrame, functionFilter="Function"){
+  colnames <- colnames(objectDataFrame);
+  # separate functions
+  functionsDataFrame <- subset(objectDataFrame, grepl(paste0("^", functionFilter), objectDataFrame[[1]]), drop = TRUE);
+  colnames <- c("FunctionTypes", "FunctionCount");
+  colnames(functionsDataFrame) <- colnames;
+  
+  return(tibble::as_data_frame(functionsDataFrame));
 }
 #' Title  TrimXmlXlsToTibble
 #'
@@ -57,4 +163,3 @@ TrimXmlXlsToTibble <- function(aTibble = NULL) {
   
   return(tibble::as_data_frame(aDataFr));
 }
-

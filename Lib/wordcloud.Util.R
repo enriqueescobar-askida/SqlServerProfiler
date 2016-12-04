@@ -1,6 +1,7 @@
 # import
 library(tm);
 library(wordcloud);
+require(tibble);
 ###
 ### functions
 ###
@@ -66,3 +67,31 @@ WorcloudToBarplot <- function(aSortedDataFrame = NULL){
     return(aBarplot);
   }
 }
+#' Title  ScreenTxtFiles
+#'
+#' @param fileList
+#' @export TBD
+#'
+#' @examples TBD
+ScreenTxtFiles <- function(fileList = list()) {
+  
+  for (singleFile in fileList) {
+    print(singleFile);
+    singleText <- readLines(singleFile);
+    corpusWords <- Corpus(VectorSource(singleText));
+    # inspect(corpusWords);
+    termDocMatrixSortDesc <- sort(rowSums(as.matrix(TermDocumentMatrix(corpusWords))),
+                                  decreasing  = TRUE);
+    termDocDataFrameSortDesc <- data.frame(word = names(termDocMatrixSortDesc),
+                                           freq = termDocMatrixSortDesc);
+    termDocDataFrameSortDesc <- tibble::as_data_frame(termDocDataFrameSortDesc);
+    print(head(termDocDataFrameSortDesc));
+    singleWordcloudPng <- gsub(".txt", ".wordcloud.png", singleFile);
+    WordcloudToPng(termDocDataFrameSortDesc, singleWordcloudPng);
+    # WorcloudToBarplot(termDocDataFrameSortDesc);
+    singleWordcloudFreq <- gsub(".txt", ".freq.csv", singleFile);
+    print(singleWordcloudFreq);
+    write.csv2(termDocDataFrameSortDesc, file = singleWordcloudFreq, row.names = FALSE);
+  }
+}
+
