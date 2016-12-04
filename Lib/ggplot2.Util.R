@@ -1,7 +1,212 @@
 
 
 
-
+#' Title  GgplotToPng
+#'
+#' @param pngFilePath
+#'
+#' @export TBD
+#'
+#' @examples TBD
+GgplotToPng <- function(pngFilePath = "", barplot = NULL) {
+  
+  if (is.na(barplot)) {
+    
+    return(FALSE);
+  } else {
+    write(paste0("Saving to path : ", pngFilePath), stdout());
+    ggsave(filename = pngFilePath, plot = barplot, dpi = 100);
+    
+    return(TRUE);
+  }
+}
+#' Title  TwoColumnDataFrameToHistogram
+#'
+#' @param aDataFrame 
+#' @param mainTitle 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+TwoColumnDataFrameToHistogram <- function(aDataFrame = NULL, mainTitle = "") {
+  aHist <- NULL;
+  
+  if (is.null(aDataFrame)) {
+    
+    return(aHist);
+  } else {
+    # titles
+    xTitle <- names(aDataFrame)[1];
+    yTitle <- names(aDataFrame)[2];
+    colnames(aDataFrame) <- NULL;
+    names(aDataFrame)[1] <- "X";
+    names(aDataFrame)[2] <- "Y";
+    # graph
+    aHist <- ggplot(aDataFrame, aes(Y)) +
+      geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      ggtitle(mainTitle) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(aHist);
+  }
+}
+#' Title  TwoColumnDataFrameToBarlot
+#'
+#' @param aDataFrame 
+#' @param mainTitle 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+TwoColumnDataFrameToBarlot <- function(aDataFrame = NULL, mainTitle = "") {
+  
+  if (is.null(aDataFrame)) {
+    
+    return(NULL);
+  } else {
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    aDataFrame <- head(aDataFrame, 50);
+    # titles
+    xTitle <- colnames(aDataFrame)[1];
+    yTitle <- colnames(aDataFrame)[2];
+    colnames(aDataFrame) <- NULL;
+    names(aDataFrame)[1] <- "X";
+    names(aDataFrame)[2] <- "Y";
+    # graph
+    barplot <- ggplot(aDataFrame,
+                      aes(x = factor(X), y = Y)) +
+      geom_bar(stat = "identity", width = 0.8, position = "dodge", fill = "lightblue") +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      ggtitle(mainTitle) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5));
+    
+    return(barplot);
+  }
+}
+#' Title  GenericPiechartFromTwoColumnDataFrame
+#'
+#' @param aDataFrame 
+#' @param mainTitle 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+GenericPiechartFromTwoColumnDataFrame <- function(aDataFrame = NULL, mainTitle = NULL) {
+  aPierchart <- NULL;
+  
+  if (!is.null(aDataFrame) & (ncol(aDataFrame) == 2)) {
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    # titles
+    xTitle <- colnames(aDataFrame)[1];
+    names(aDataFrame)[1] <- "X";
+    yTitle <- colnames(aDataFrame)[2];
+    names(aDataFrame)[2] <- "Y";
+    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
+    mainTitle <- paste0(mainTitle, " PieChart");
+    # lists
+    PercentList <- round(aDataFrame$Y / sum(aDataFrame$Y) * 100, digits = 1);
+    labelList <- paste0(aDataFrame$X, " ", PercentList, "%");
+    write(paste0("labelList: ", aDataFrame), stdout());
+    ColorList <- heat.colors(length(PercentList));
+    # graph
+    aPierchart <- ggplot(aDataFrame,
+                         aes(x = factor(1), y = PercentList, fill = labelList)) +
+      # make stacked bar chart with black border
+      geom_bar(stat = "identity", color = "grey80", width = 1) +
+      #geom_text(aes(x = 1.5, y = PercentList, label = labelList), size = 4) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      coord_polar(theta = "y");
+  }
+  
+  return(aPierchart);
+}
+#' Title  DataFrameColumnToBarplot
+#'
+#' @param aDataFrame 
+#' @param columnName 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameColumnToBarplot <- function(aDataFrame = NULL, columnName = NULL) {
+  aBarplot <- NULL;
+  
+  if (!is.null(aDataFrame) & !is.null(columnName)) {
+    aTable <- ColumnDataFrameToFrequencyTable(aDataFrame, columnName);
+    aTibble <- FrequencyTableToTibble(aTable, aTitle = columnName);
+    # titles
+    xTitle <- colnames(aTibble)[1];
+    yTitle <- colnames(aTibble)[2];
+    mainTitle <- paste0(columnName, " Barplot");
+    colnames(aTibble) <- NULL;
+    names(aTibble)[1] <- "X";
+    names(aTibble)[2] <- "Y";
+    # calculations
+    PercentList <- round(aTibble$Y / sum(aTibble$Y) * 100);
+    TypeList <- paste0(aTibble$X," ",PercentList, "%");
+    ColorList <- heat.colors(length(TypeList));
+    # graph
+    aBarplot <- ggplot(aTibble,
+                       aes(x = "", y = Y, fill = TypeList)) +
+      labs(fill = xTitle) +
+      geom_bar(width = 1, stat = "identity") +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle);
+  }
+  
+  return(aBarplot);
+}
+#' Title  DataFrameColumnToPiechart
+#'
+#' @param aDataFrame 
+#' @param columnName 
+#'
+#' @return ggplot2
+#' @export TBD
+#'
+#' @examples TBD
+DataFrameColumnToPiechart <- function(aDataFrame = NULL, columnName = NULL) {
+  aPiechart <- NULL;
+  
+  if (!is.null(aDataFrame) & !is.null(columnName)) {
+    aTable <- ColumnDataFrameToFrequencyTable(aDataFrame, columnName);
+    aTibble <- FrequencyTableToTibble(aTable, aTitle = columnName);
+    # titles
+    xTitle <- colnames(aTibble)[1];
+    yTitle <- colnames(aTibble)[2];
+    mainTitle <- paste0(columnName, " Piechart");
+    colnames(aTibble) <- NULL;
+    names(aTibble)[1] <- "X";
+    names(aTibble)[2] <- "Y";
+    # calculations
+    PercentList <- round(aTibble$Y / sum(aTibble$Y) * 100);
+    TypeList <- paste0(aTibble$X," ",PercentList, "%");
+    ColorList <- heat.colors(length(TypeList));
+    # graph
+    aPiechart <- ggplot(aTibble,
+                        aes(x = factor(1), y = PercentList, fill = TypeList)) +
+      # make stacked bar chart with black border
+      geom_bar(stat = "identity", color = "grey80", width = 1) +
+      # add the percents to the interior of the chart
+      #geom_text(aes(x = 1.5, y = PercentList, label = FunctionTypes), size = 4) +
+      ggtitle(mainTitle) +
+      xlab(xTitle) +
+      ylab(yTitle) +
+      coord_polar(theta = "y");
+  }
+  
+  return(aPiechart);
+}
 #' Title  DBRowCountFrameToBarplot
 #'
 #' @param usageDataFrame 
