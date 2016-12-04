@@ -70,7 +70,7 @@ head(serverLinked); rm(serverLinked);
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
 serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
-serverDbSpec$DBIdentifier <- as.character(serverDbSpec$DBIdentifier);
+serverDbSpec$DBIdentifier <- as.integer(as.character(serverDbSpec$DBIdentifier))
 serverDbSpec$DBName <- as.character(serverDbSpec$DBName);
 serverDbSpec$OriginalDBName <- as.character(serverDbSpec$OriginalDBName);
 head(serverDbSpec); rm(serverDbSpec);
