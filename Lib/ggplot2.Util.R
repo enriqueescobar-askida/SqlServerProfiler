@@ -71,7 +71,6 @@ TwoColumnDataFrameToBarlot <- function(aDataFrame = NULL, mainTitle = "") {
     
     return(NULL);
   } else {
-    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
     aDataFrame <- head(aDataFrame, 50);
     # titles
     xTitle <- colnames(aDataFrame)[1];
@@ -104,18 +103,15 @@ GenericPiechartFromTwoColumnDataFrame <- function(aDataFrame = NULL, mainTitle =
   aPierchart <- NULL;
   
   if (!is.null(aDataFrame) & (ncol(aDataFrame) == 2)) {
-    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
     # titles
     xTitle <- colnames(aDataFrame)[1];
     names(aDataFrame)[1] <- "X";
     yTitle <- colnames(aDataFrame)[2];
     names(aDataFrame)[2] <- "Y";
-    write(paste0("Column name: ", colnames(aDataFrame)), stdout());
     mainTitle <- paste0(mainTitle, " PieChart");
     # lists
     PercentList <- round(aDataFrame$Y / sum(aDataFrame$Y) * 100, digits = 1);
     labelList <- paste0(aDataFrame$X, " ", PercentList, "%");
-    write(paste0("labelList: ", aDataFrame), stdout());
     ColorList <- heat.colors(length(PercentList));
     # graph
     aPierchart <- ggplot(aDataFrame,
@@ -224,7 +220,6 @@ DBRowCountFrameToBarplot <- function(usageDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(colnames(usageDataFrame), stdout());
     # titles
     xTitle <- colnames(usageDataFrame)[1];
     yTitle <- colnames(rev(usageDataFrame)[1]);
@@ -257,7 +252,6 @@ DBUsageDataFrameToBarplot <- function(usageDataFrame = NULL) {
     
     return(NULL);
   } else {
-    write(paste0("Column name: ", colnames(usageDataFrame)), stdout());
     # titles
     xTitle <- colnames(usageDataFrame)[2];
     yTitle <- colnames(rev(usageDataFrame)[1]);
@@ -288,7 +282,6 @@ DBUsageDataFrameToPiechart <- function(usageDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(usageDataFrame)), stdout());
     PercentList <- round(usageDataFrame$DBBufferMB / sum(usageDataFrame$DBBufferMB) * 100, digits = 1);
     labelList <- paste0(usageDataFrame$DBName," ",PercentList, "%");
     ColorList <- heat.colors(length(PercentList));
@@ -325,7 +318,6 @@ DBObjectDataFrameToBarplot <- function(objectDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(objectDataFrame)), stdout());
     # titles
     xTitle <- colnames(objectDataFrame)[1];
     yTitle <- colnames(objectDataFrame)[-1];
@@ -355,7 +347,6 @@ DBFunctionDataFrameToDensityplot <- function(functionDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(colnames(functionDataFrame), stdout());
     # titles
     xTitle <- "Number of parameters";
     mainTitle <- "Densityplot for parameter distribution";
@@ -382,7 +373,6 @@ DBFunctionDataFrameToBoxplot <- function(functionDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(colnames(functionDataFrame), stdout());
     # titles
     xTitle <- "Function type";
     yTitle <- "Number of parameters";
@@ -413,7 +403,6 @@ DBFunctionDataFrameToBarplot <- function(functionDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(functionDataFrame)), stdout());
     PercentList <- round(functionDataFrame$FunctionCount / sum(functionDataFrame$FunctionCount) * 100);
     FunctionTypeList <- paste0(functionDataFrame$FunctionTypes," ",PercentList, "%");
     # titles
@@ -446,7 +435,6 @@ DBFunctionDataFrameToPiechart <- function(functionDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(functionDataFrame)), stdout());
     PercentList <- round(functionDataFrame$FunctionCount / sum(functionDataFrame$FunctionCount) * 100);
     FunctionTypeList <- paste0(functionDataFrame$FunctionTypes," ",PercentList, "%");
     ColorList <- heat.colors(length(PercentList));
@@ -500,7 +488,7 @@ FunctionWithoutWithTotalDFToPiechart <- function(woWithTotalDataFrame = NULL,
     woWithTotalDataFrame <- tibble::as_data_frame(woWithTotalDataFrame);
     woWithTotalDataFrame[[2]] <- as.numeric(woWithTotalDataFrame[[2]]);
     # check colname
-    write(colnames(woWithTotalDataFrame), stdout());
+    #write(colnames(woWithTotalDataFrame), stdout());
     # titles
     xTitle <- colnames(woWithTotalDataFrame)[1];
     yTitle <- colnames(woWithTotalDataFrame)[2];
@@ -553,7 +541,7 @@ FunctionWithoutWithTotalDFToBarplot <- function(woWithTotalDataFrame = NULL,
     # cast to data frame
     woWithTotalDataFrame <- as.data.frame(woWithTotalDataFrame);
     # check colname
-    write(colnames(woWithTotalDataFrame), stdout());
+    #write(colnames(woWithTotalDataFrame), stdout());
     # titles
     xTitle <- colnames(woWithTotalDataFrame)[1];
     yTitle <- colnames(woWithTotalDataFrame)[-1];
@@ -583,7 +571,6 @@ DBStoreProcDataFrameToBoxplot <- function(storeProcDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(storeProcDataFrame)), stdout());
     # titles
     xTitle <- "Procedure type";
     yTitle <- "Number of parameters";
@@ -615,7 +602,6 @@ DBStoreProcDataFrameToDensityplot <- function(storeProcDataFrame = NULL) {
     
     return(NULL);
   }else{
-    write(paste0("Column name: ", colnames(storeProcDataFrame)), stdout());
     # titles
     xTitle <- "Number of parameters";
     mainTitle <- "Densityplot for parameter distribution";
@@ -658,7 +644,7 @@ StoredProcWithoutWithTotalDFToBarplot <- function(woWithTotalDataFrame = NULL,
     woWithTotalDataFrame <- tibble::as_data_frame(as.data.frame(woWithTotalDataFrame));
     woWithTotalDataFrame;
     # check colname
-    write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
+    #write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
     # titles
     xTitle <- colnames(woWithTotalDataFrame)[1];
     yTitle <- colnames(woWithTotalDataFrame)[-1];
@@ -705,7 +691,7 @@ StoredProcWithoutWithTotalDFToPiechart <- function(woWithTotalDataFrame = NULL,
     woWithTotalDataFrame <- tibble::as_data_frame(as.data.frame(woWithTotalDataFrame));
     woWithTotalDataFrame[[2]] <- as.numeric(as.character(woWithTotalDataFrame[[2]]));
     #
-    write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
+    #write(paste0("Column name: ", colnames(woWithTotalDataFrame)), stdout());
     PercentList <- round(woWithTotalDataFrame[[2]] / sum(woWithTotalDataFrame[[2]]) * 100, digits = 1);
     labelList <- paste0(woWithTotalDataFrame[[1]], " ", PercentList, "%");
     ColorList <- heat.colors(length(PercentList));

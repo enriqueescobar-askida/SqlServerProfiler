@@ -11,16 +11,18 @@ output:
 The best tool to do statistical analysis and graph is R (integrated in SQL Server 2016).
 
 # Set path and load libraries
-```{r SetupPathLibs, echo=TRUE, error=FALSE, message=TRUE, warning=FALSE}
+```{r SetupPathLibs, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-#setwd("D:/Disk_X/axon/SqlServerProfiler");
-setwd("E:/Disk_X/SqlServerProfiler/");
+setwd("D:/Disk_X/axon/SqlServerProfiler");
+#setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
 source(gDriveUtil);
+# sessionInfo
+sessionInfo();
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
 # fileList2 <- list("Data/02 Agent N1 Complete Agent Web Services engage.new.xls");
@@ -62,8 +64,7 @@ source(gDriveUtil);
 ```
 
 # Connexion & server info
-```{r ServerInfo, echo=TRUE, error=FALSE, message=TRUE, warning=FALSE}
-print("Server");
+```{r ServerInfo, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server info
 serverInstance <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-SQLServerInstance.xls")$SQLServerInstance;
 serverInstance <- as.character(serverInstance);
@@ -109,9 +110,8 @@ head(serverDbBackup); rm(serverDbBackup);
 
 # Screening Server
 
-## Server Usage
+## Server DB Usage
 ```{r ServerUsage, echo=TRUE, message=FALSE, warning=FALSE}
-print("Server DB Usage");
 ## Server DB Usage
 # Server DB usage list
 xlsFile <- "Data/HYSEC-Usage_list.xls";
@@ -147,8 +147,7 @@ head(allParametersDataFrame); rm(allParametersDataFrame);
 ```
 
 # Screening Model
-```{r Model-ObjectAll, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB Object");
+```{r Model-ObjectAll, echo=TRUE, message=FALSE, warning=FALSE}
 ## DB Object
 # DB object list
 xlsFile <- "Data/HYSEC-Object_list.xls";
@@ -178,8 +177,7 @@ rm(objectAllDataFrame); rm(objectAllBarplot); rm(objectAllPiechart);
 ## Function Analysis
 
 ### Function Type List
-```{r Model-Function, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server Function Analysis");
+```{r Model-Function, echo=TRUE, message=FALSE, warning=FALSE}
 ## Function Analysis
 # Function Analysis count
 xlsFile <- "Data/HYSEC-Function_count.xls";
@@ -264,8 +262,7 @@ rm(fnParamsBoxplot); rm(fnParamsDensityplot);
 ```
 
 ## Procedure Analysis
-```{r Model-Procedure, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB StoredProc");
+```{r Model-Procedure, echo=TRUE, message=FALSE, warning=FALSE}
 ## DB StoredProc
 # DB StoreProc count
 xlsFile <- "Data/HYSEC-Procedure_count.xls";
@@ -338,8 +335,7 @@ rm(storeProcParamsPiechart); rm(storeProcParamsBoxplot); rm(storeProcParamsDensi
 ```
 
 ## DB Analysis
-```{r Model-DB, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB Table Count");
+```{r Model-DB, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Count CSV
 xlsFile <- "Data/HYSEC-RowCount_list.xls";
 tableRowCountDataFrame <- XlsToDataFrame(xlsFile);
@@ -364,8 +360,7 @@ rm(xlsFile); rm(tableRowCountDataFrame); rm(aMean);  rm(tableRowCountBarplot);
 ```
 
 ## Table Analysis
-```{r Model-TableAnalysis, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB Table Analysis");
+```{r Model-TableAnalysis, echo=TRUE, message=FALSE, warning=FALSE}
 ## DB Table Analysis
 # DB Table Analysis count
 xlsFile <- "Data/HYSEC-Table_count.xls";
@@ -392,8 +387,7 @@ rm(xlsFile); rm(sqlDataFrame);
 
 ### Table Independent List
 Verify if empty or not used.
-```{r Model-TableIndependentList, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB Table Independent List");
+```{r Model-TableIndependentList, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Analysis Independent
 xlsFile <- "Data/HYSEC-TableIndependent_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -416,8 +410,7 @@ rm(xlsFile); rm(sqlDataFrame);
 Verify if empty or not used.
 Verify if FK point to indexed columns.
 Verify if PK is indexed.
-```{r Model-TableTrunkList, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server DB Table Trunk List");
+```{r Model-TableTrunkList, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Analysis Trunk
 xlsFile <- "Data/HYSEC-TableTrunk_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -432,8 +425,7 @@ rm(xlsFile); rm(sqlDataFrame);
 Verify if empty or not used.
 Verify if FK point to indexed columns.
 Verify if PK is indexed.
-```{r Model-TableLeafList, echo=TRUE, message=TRUE, warning=FALSE}
-print("Table Leaf List");
+```{r Model-TableLeafList, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Analysis Leaf
 xlsFile <- "Data/HYSEC-TableLeaf_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -447,8 +439,7 @@ rm(xlsFile); rm(sqlDataFrame);
 ### Table Parent List
 Verify if empty or not used.
 Verify if PK is indexed.
-```{r Model-TableParentList, echo=TRUE, message=TRUE, warning=FALSE}
-print("Table Parent List");
+```{r Model-TableParentList, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Analysis Parent
 xlsFile <- "Data/HYSEC-TableParent_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -464,8 +455,7 @@ rm(xlsFile); rm(sqlDataFrame);
 ### Table Key List
 Verify if FK point to indexed columns.
 Verify if PK is indexed.
-```{r Model-TableKeyList, echo=TRUE, message=TRUE, warning=FALSE}
-print("Table Key List");
+```{r Model-TableKeyList, echo=TRUE, message=FALSE, warning=FALSE}
 # DB Table Analysis keys list
 xlsFile <- "Data/HYSEC-Table_listKeys.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
@@ -481,8 +471,7 @@ rm(xlsFile); rm(sqlDataFrame);
 
 ## View Analysis
 Check if they are indexable or indexed, index them if needed to increase performance.
-```{r Model-View, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server View Analysis");
+```{r Model-View, echo=TRUE, message=FALSE, warning=FALSE}
 ## View Analysis
 # View Analysis count
 xlsFile <- "Data/HYSEC-View_count.xls";
@@ -507,8 +496,7 @@ rm(countView); rm(xlsFile); rm(sqlDataFrame);
 
 ## Principal Key Analysis
 Check if all are used nor indexed.
-```{r Model-PrincipalKey, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server PKey Analysis");
+```{r Model-PrincipalKey, echo=TRUE, message=FALSE, warning=FALSE}
 ## PKey Analysis
 # PKey Analysis count
 xlsFile <- "Data/HYSEC-PKeys_count.xls";
@@ -538,8 +526,7 @@ rm(aTable); rm(aTibble); rm(principalKeyHistogram);
 ## Foreign Key Analysis
 Check if all are used nor indexed nor trusted.
 Verify tables if ON Delete CASCADE.
-```{r Model-ForeignKey, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server FKey Analysis");
+```{r Model-ForeignKey, echo=TRUE, message=FALSE, warning=FALSE}
 ## FKey Analysis
 # FKey Analysis count
 xlsFile <- "Data/HYSEC-FKeys_count.xls";
@@ -573,8 +560,7 @@ rm(aTable); rm(aTibble); rm(fKeyHistogram);
 ## Index Analysis
 
 ### Index List
-```{r Model-Indexes, echo=TRUE, message=TRUE, warning=FALSE}
-print("Server Index Analysis");
+```{r Model-Indexes, echo=TRUE, message=FALSE, warning=FALSE}
 ## Index Analysis
 # Index Analysis count
 xlsFile <- "Data/HYSEC-Index_count.xls";

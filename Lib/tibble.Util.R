@@ -62,9 +62,7 @@ DataFrameFromColumns <- function(aDataFrame = NULL,
                                  colName2 = "",
                                  colName3 = ""){
   columnList <- c(colName1, colName2, colName3);
-  write(columnList, stdout());
   indexList <- which(colnames(aDataFrame) %in% columnList);
-  write(indexList, stdout());
   
   return(tibble::as_data_frame(aDataFrame[indexList]));
 }
