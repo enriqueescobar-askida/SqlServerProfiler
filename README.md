@@ -2,6 +2,11 @@
 Sql Server Profiler
 
 # R Session Info
+ 
+## R Version info
+R version 3.3.0 (2016-05-03)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows >= 8 x64 (build 9200)
 
 ## Locale list
 - LC_COLLATE=English_United States.1252 
