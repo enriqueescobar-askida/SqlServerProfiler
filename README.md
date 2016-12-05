@@ -68,7 +68,7 @@ The code has been quickly written to publish a story as rapidy as possible. No g
 
 ### License
 
-<a rel="license" href="https://opensource.org/licenses/MIT"><img alt="Creative Commons License" style="border-width:0" src="https://opensource.org/files/osi_greyscale_for_use_on_light_backgrounds_logo.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Licensed under a <a rel="license" href="https://opensource.org/licenses/MIT">MIT License</a>.
+<a rel="license" href="https://opensource.org/licenses/MIT"><img alt="MIT License" style="border-width:0" src="https://ucarecdn.com/71946d9b-adad-4d6e-9130-0a480ddcc553/" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Licensed under a <a rel="license" href="https://opensource.org/licenses/MIT">MIT License</a>.
 
 ### Contact details
 
