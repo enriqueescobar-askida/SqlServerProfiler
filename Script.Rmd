@@ -1,7 +1,7 @@
 ---
-title: "Static SQL"
+title: "SQL Server Profiler-Script"
 author: "Enrique ESCOBAR"
-date: "18-11-2016"
+date: "18-12-2016"
 output: 
   html_document: 
     toc: yes
@@ -10,19 +10,28 @@ output:
 # Setup R
 The best tool to do statistical analysis and graph is R (integrated in SQL Server 2016).
 
+Use R open source programming language to support big data analytics at enterprise scale with Microsoft R Server.
+
 # Set path and load libraries
+First, load libraries needed and then the methods using those libraries.
+
+Second, show the session information under R. 
 ```{r SetupPathLibs, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
 source(gDriveUtil);
 # sessionInfo
 sessionInfo();
+```
+
+## Silent Screen Xls
+```{r ScreenXls, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
 # fileList2 <- list("Data/02 Agent N1 Complete Agent Web Services engage.new.xls");
@@ -64,21 +73,42 @@ sessionInfo();
 ```
 
 # Connexion & server info
-```{r ServerInfo, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+## Server instance
+```{r ServerInstance, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server info
+## Server instance
 serverInstance <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-SQLServerInstance.xls")$SQLServerInstance;
 serverInstance <- as.character(serverInstance);
+serverInstance;
+```
+## Server version
+```{r ServerVersion, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+# Server info
+## Server version
 serverVersion <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-SQLServerVersion.xls")$SQLServerVersion;
 serverVersion <- as.character(serverVersion);
+serverVersion;
+```
+## Server service
+```{r ServerService, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+# Server info
+## Server service
 serverService <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-ServiceInstance.xls")$ServiceInstance;
 serverService <- as.character(serverService);
+serverService;
+```
 # Server Running
+```{r ServerRunning, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 serverRunning <- XlsToDataFrame("Data/HYSEC-ServerRunning_list.xls");
 serverRunning$ServerName <- as.character(serverRunning$ServerName);
 serverRunning$ServiceName <- as.character(serverRunning$ServiceName);
 serverRunning$ServerStarted <- as.numeric(as.character(serverRunning$ServerStarted));
 serverRunning$DaysRunning <- as.numeric(as.character(serverRunning$DaysRunning));
-head(serverRunning); rm(serverRunning);
+serverRunning;
+rm(serverRunning);
+```
+# Server Linked
+```{r ServerLinked, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server Linked
 serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
 serverLinked$ServerName <- as.character(serverLinked$ServerName);
@@ -89,26 +119,33 @@ serverLinked$Provider <- as.character(serverLinked$Provider);
 serverLinked$DataSource <- as.character(serverLinked$DataSource);
 serverLinked$ModificationDate <- as.numeric(as.character(serverLinked$ModificationDate));
 serverLinked$IsLinked <- as.logical(as.character(serverLinked$IsLinked));
-head(serverLinked); rm(serverLinked);
-# Server DB spec
+serverLinked;
+rm(serverLinked);
+```
+# Server DB
+## Server DB spec
+```{r ServerDbSpec, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+## Server DB spec
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
 serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
 serverDbSpec$DBIdentifier <- as.integer(as.character(serverDbSpec$DBIdentifier));
 serverDbSpec$DBName <- as.character(serverDbSpec$DBName);
 serverDbSpec$OriginalDBName <- as.character(serverDbSpec$OriginalDBName);
-head(serverDbSpec); rm(serverDbSpec);
-# Server DB Backup
+serverDbSpec;
+rm(serverDbSpec);
+```
+## Server DB Backup
+```{r ServerDbBackup, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+## Server DB Backup
 serverDbBackup <- XlsToDataFrame("Data/HYSEC-ServerDBBackup_list.xls");
 serverDbBackup$ServerName <- as.character.Date(serverDbBackup$ServerName);
 serverDbBackup$ServiceName <- as.character(serverDbBackup$ServiceName);
 serverDbBackup$DBName <- as.character(serverDbBackup$DBName);
 serverDbBackup$Backup_finish_date <- as.numeric(as.character(serverDbBackup$Backup_finish_date));
 serverDbBackup$Physical_Device_name <- as.character(serverDbBackup$Physical_Device_name);
-head(serverDbBackup); rm(serverDbBackup);
+serverDbBackup; rm(serverDbBackup);
 ```
-
-# Screening Server
 
 ## Server DB Usage
 ```{r ServerUsage, echo=TRUE, message=FALSE, warning=FALSE}
@@ -120,7 +157,7 @@ serverDbUsageList$DBIdentifier <- as.numeric(as.character(serverDbUsageList$DBId
 serverDbUsageList$DBName <- as.character(serverDbUsageList$DBName);
 serverDbUsageList$DBBufferPages <- as.numeric(as.character(serverDbUsageList$DBBufferPages));
 serverDbUsageList$DBBufferMB <- as.numeric(as.character(serverDbUsageList$DBBufferMB));
-head(serverDbUsageList);
+serverDbUsageList;
 # Server DB usage plots
 usagePlot <- DBUsageDataFrameToBarplot(serverDbUsageList);
 usagePieChart <- DBUsageDataFrameToPiechart(serverDbUsageList);
@@ -143,7 +180,7 @@ allParametersDataFrame$ParameterPrecision <- as.integer(as.character(allParamete
 allParametersDataFrame$ParamMaxBytes <- as.integer(as.character(allParametersDataFrame$ParamMaxBytes));
 allParametersDataFrame$ParameterScale <- as.integer(as.character(allParametersDataFrame$ParameterScale));
 allParametersDataFrame$IsParameterOutput <- as.logical(as.character(allParametersDataFrame$IsParameterOutput));
-head(allParametersDataFrame); rm(allParametersDataFrame);
+allParametersDataFrame; rm(allParametersDataFrame);
 ```
 
 # Screening Model

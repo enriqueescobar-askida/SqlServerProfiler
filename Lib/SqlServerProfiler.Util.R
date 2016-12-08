@@ -115,10 +115,18 @@ TraceXmlXlsToCsv <- function(aTibble = data.frame(NULL), filePath = ""){
 #
 library(data.table);
 # import tibble
-source("Lib/tibble.Util.R");
+myLibrary <- "Lib/tibble.Util.R";
+write(paste0(c("Load Util........\t", myLibrary), sep = "", collapse = ""), stdout());
+source(myLibrary);
 ### ggplot2
-source("Lib/ggplot2.Util.R");
+myLibrary <- "Lib/ggplot2.Util.R";
+write(paste0(c("Load Util........\t", myLibrary), sep = "", collapse = ""), stdout());
+source(myLibrary);
 ### import wordcloud
-source("Lib/wordcloud.Util.R");
+myLibrary <- "Lib/wordcloud.Util.R";
+write(paste0(c("Load Util........\t", myLibrary), sep = "", collapse = ""), stdout());
+source(myLibrary);
 ### import xlsx
-source("Lib/xlsx.Util.R");
+myLibrary <- "Lib/xlsx.Util.R";
+write(paste0(c("Load Util........\t", myLibrary), sep = "", collapse = ""), stdout());
+source(myLibrary);

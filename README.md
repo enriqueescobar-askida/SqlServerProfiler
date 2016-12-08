@@ -1,24 +1,31 @@
 # SqlServerProfiler
 Sql Server Profiler allows to read *XML exported files from MS SQL Server Profiler *TRC files.
+
 Those trace files can have fields filtered using bash *NEW.XML files.
+
 Those light files can be opened using MS Excel and be saved as *NEW.XLS files.
 
-Sql Server Profiler allows also to read reagular *XLS result files from Sql queries.
+Sql Server Profiler allows also to read reagular *NEW.XLS result files from Sql queries.
+
+SqlServerProfiler can read *NEW.XLS files into a a data frame to start treatment in R.
+
 This also does the graphics and all for static objects on the data base.
 
 # R Session Info
  
 ## R Version info
 R version 3.3.0 (2016-05-03)
+
 Platform: x86_64-w64-mingw32/x64 (64-bit)
+
 Running under: Windows >= 8 x64 (build 9200)
 
 ## Locale list
-- LC_COLLATE=English_United States.1252 
-- LC_CTYPE=English_United States.1252   
+- LC_COLLATE=English_United States.1252
+- LC_CTYPE=English_United States.1252
 - LC_MONETARY=English_United States.1252
-- LC_NUMERIC=C                          
-- LC_TIME=English_United States.1252 
+- LC_NUMERIC=C
+- LC_TIME=English_United States.1252
 
 ## Base packages
 - stats
