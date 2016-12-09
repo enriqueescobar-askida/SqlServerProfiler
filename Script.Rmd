@@ -74,6 +74,7 @@ sessionInfo();
 
 # Connexion & server info
 ## Server instance
+Database Engine Instances (SQL Server) An instance of the Database Engine is a copy of the sqlservr.exe executable that runs as an operating system service. Each instance manages several system databases and one or more user databases. Each computer can run multiple instances of the Database Engine.
 ```{r ServerInstance, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server info
 ## Server instance
@@ -82,6 +83,9 @@ serverInstance <- as.character(serverInstance);
 serverInstance;
 ```
 ## Server version
+- Sql Server Version
+- Sql Server Date Release
+- Sql Server Copyrights and OS install
 ```{r ServerVersion, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server info
 ## Server version
@@ -90,6 +94,7 @@ serverVersion <- as.character(serverVersion);
 serverVersion;
 ```
 ## Server service
+Sql Server service running on the server.
 ```{r ServerService, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server info
 ## Server service
@@ -98,6 +103,7 @@ serverService <- as.character(serverService);
 serverService;
 ```
 # Server Running
+Sql Server running list from start date time and number of days.
 ```{r ServerRunning, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 serverRunning <- XlsToDataFrame("Data/HYSEC-ServerRunning_list.xls");
 serverRunning$ServerName <- as.character(serverRunning$ServerName);
@@ -108,6 +114,7 @@ serverRunning;
 rm(serverRunning);
 ```
 # Server Linked
+List of Sql Server Linked
 ```{r ServerLinked, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 # Server Linked
 serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
@@ -123,7 +130,11 @@ serverLinked;
 rm(serverLinked);
 ```
 # Server DB
+Sql Server database analysis.
+
 ## Server DB spec
+Sql Server instance database list.
+
 ```{r ServerDbSpec, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 ## Server DB spec
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
@@ -136,6 +147,8 @@ serverDbSpec;
 rm(serverDbSpec);
 ```
 ## Server DB Backup
+Sql Server instance database backup list.
+
 ```{r ServerDbBackup, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
 ## Server DB Backup
 serverDbBackup <- XlsToDataFrame("Data/HYSEC-ServerDBBackup_list.xls");
@@ -148,6 +161,8 @@ serverDbBackup; rm(serverDbBackup);
 ```
 
 ## Server DB Usage
+Sql Server instance database usage list, including usage barplot and usage piechart.
+
 ```{r ServerUsage, echo=TRUE, message=FALSE, warning=FALSE}
 ## Server DB Usage
 # Server DB usage list
@@ -184,6 +199,8 @@ allParametersDataFrame; rm(allParametersDataFrame);
 ```
 
 # Screening Model
+Sql Server instance database object model analysis.
+
 ```{r Model-ObjectAll, echo=TRUE, message=FALSE, warning=FALSE}
 ## DB Object
 # DB object list
@@ -213,6 +230,16 @@ rm(objectAllDataFrame); rm(objectAllBarplot); rm(objectAllPiechart);
 
 ## Function Analysis
 
+Function analysis with number count:
+```{r Model-FunctionAnalysis, echo=FALSE, message=FALSE, warning=FALSE}
+## Function Analysis
+# Function Analysis count
+xlsFile <- "Data/HYSEC-Function_count.xls";
+countFunc <- XlsToDataFrame(xlsFile);
+countFunc <- as.integer(as.character(countFunc$Count));
+countFunc;
+```
+
 ### Function Type List
 ```{r Model-Function, echo=TRUE, message=FALSE, warning=FALSE}
 ## Function Analysis
@@ -229,7 +256,6 @@ sqlDataFrame$FunctionType <- as.character(sqlDataFrame$FunctionType);
 sqlDataFrame$FunctionDesc <- as.character(sqlDataFrame$FunctionDesc);
 sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCreated)); #
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
-print(paste0("Function list count: ", nrow(sqlDataFrame)));
 print(sqlDataFrame);
 # Function Analysis list barplot
 fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "FunctionType");
