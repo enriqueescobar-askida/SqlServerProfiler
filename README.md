@@ -11,6 +11,9 @@ SqlServerProfiler can read *NEW.XLS files into a a data frame to start treatment
 
 This also does the graphics and all for static objects on the data base.
 
+## Important SQL server objects
+
+[link to SQL Server System Objects]("Doc/MS-SQLServer_sys.object.types.png"")
 # R Session Info
  
 ## R Version info
