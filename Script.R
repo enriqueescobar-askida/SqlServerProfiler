@@ -1,6 +1,6 @@
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-#setwd("D:/Disk_X/axon/SqlServerProfiler");
-setwd("E:/Disk_X/SqlServerProfiler/");
+setwd("D:/Disk_X/axon/SqlServerProfiler");
+#setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
@@ -538,4 +538,26 @@ constraintBarplot <- TwoColumnDataFrameToBarlot(sqlDataFrame);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), constraintBarplot);
 # rm()
 rm(xlsFile); rm(sqlDataFrame); rm(constraintBarplot);
-
+# Trigger Analysis
+## Trigger Analysis List
+xlsFile <- "Data/HYSEC-Trigger_list.xls";
+sqlDataFrame <- XlsToDataFrame(xlsFile);
+sqlDataFrame$TableName <- as.character(sqlDataFrame$TableName);
+sqlDataFrame$TriggerObjectId <- as.integer(as.character(sqlDataFrame$TriggerObjectId));
+sqlDataFrame$TriggerName <- as.character(sqlDataFrame$TriggerName);
+sqlDataFrame$TriggerText <- as.character(sqlDataFrame$TriggerText);
+sqlDataFrame$TriggerCreation <- as.numeric(as.character(sqlDataFrame$TriggerCreation));
+sqlDataFrame$TriggerRefDate <- as.numeric(as.character(sqlDataFrame$TriggerRefDate));
+sqlDataFrame$TriggerVersion <- as.integer(as.character(sqlDataFrame$TriggerVersion));
+sqlDataFrame$TriggerType <- as.character(sqlDataFrame$TriggerType);
+sqlDataFrame$ObjectType <- as.character(sqlDataFrame$ObjectType);
+sqlDataFrame$TriggerDesc <- as.character(sqlDataFrame$TriggerDesc);
+sqlDataFrame$IsInsteadOfTrigger <- as.logical(as.character(sqlDataFrame$IsInsteadOfTrigger));
+sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdate)));
+sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
+sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
+sqlDataFrame$IsAfter <- as.logical(as.integer(as.character(sqlDataFrame$IsAfter)));
+sqlDataFrame$IsInsteadOf <- as.integer(as.character(sqlDataFrame$IsInsteadOf));
+sqlDataFrame[25:50,7:ncol(sqlDataFrame)];
+# rm()
+rm(xlsFile); rm(sqlDataFrame);
