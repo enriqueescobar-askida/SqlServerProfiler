@@ -13,7 +13,11 @@ This also does the graphics and all for static objects on the data base.
 
 ## Important SQL server objects
 
-[link to SQL Server System Objects]("Doc/MS-SQLServer_sys.object.types.png"")
+<a rel="license" href="https://raw.githubusercontent.com/enriqueescobar-askida/SqlServerProfiler/master/Doc/MS-SQLServer_sys.object.types.png">
+<img alt="SQL Server System Objects" style="border-width:0" src="https://raw.githubusercontent.com/enriqueescobar-askida/SqlServerProfiler/master/Doc/MS-SQLServer_sys.object.types.png">
+</img>
+</a>
+
 # R Session Info
  
 ## R Version info
