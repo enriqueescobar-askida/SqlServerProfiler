@@ -557,7 +557,5 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfter <- as.logical(as.integer(as.character(sqlDataFrame$IsAfter)));
-sqlDataFrame$IsInsteadOf <- as.integer(as.character(sqlDataFrame$IsInsteadOf));
-sqlDataFrame[25:50,7:ncol(sqlDataFrame)];
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
