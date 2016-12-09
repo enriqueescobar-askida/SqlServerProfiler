@@ -723,6 +723,9 @@ DDL triggers execute in response to a variety of data definition language (DDL) 
 
 Triggers types are **After Triggers** and **Instead Of Triggers**.
 
+## When to use Triggers
+There are more than a handful of developers who are not real clear when triggers should be used. I only use them when I need to perform a certain action as a result of an INSERT, UPDATE or DELETE and ad hoc SQL (aka SQL Passthrough) is used. I implement most of my data manipulation code via stored procedures and when you do this the trigger functionality can be moved into the procedure. For example, let's say you want to send an email to the Sales Manager when an order is entered whose priority is high. When ad hoc SQL is used to insert the Orders row, a trigger is used to determine the OrderPriority and send the email when the criteria is met.
+
 ## After Triggers
 These triggers run after an insert, update or delete on a table. **They are not supported for views**.
 The CREATE TRIGGER statement is used to create the trigger. THE ON clause specifies the table name on which the trigger is to be attached. The FOR INSERT specifies that this is an AFTER INSERT trigger. In place of FOR INSERT, AFTER INSERT can be used. Both of them mean the same.
@@ -740,3 +743,28 @@ These can be used as an interceptor for anything that anyone tried to do on our 
   * INSTEAD OF DELETE Trigger.
 
 ## Trigger Analysis list
+```{r Model-Trigger, echo=TRUE, message=TRUE, warning=FALSE}
+# Trigger Analysis
+## Trigger Analysis List
+xlsFile <- "Data/HYSEC-Trigger_list.xls";
+sqlDataFrame <- XlsToDataFrame(xlsFile);
+sqlDataFrame$TableName <- as.character(sqlDataFrame$TableName);
+sqlDataFrame$TriggerObjectId <- as.integer(as.character(sqlDataFrame$TriggerObjectId));
+sqlDataFrame$TriggerName <- as.character(sqlDataFrame$TriggerName);
+sqlDataFrame$TriggerText <- as.character(sqlDataFrame$TriggerText);
+sqlDataFrame$TriggerCreation <- as.numeric(as.character(sqlDataFrame$TriggerCreation));
+sqlDataFrame$TriggerRefDate <- as.numeric(as.character(sqlDataFrame$TriggerRefDate));
+sqlDataFrame$TriggerVersion <- as.integer(as.character(sqlDataFrame$TriggerVersion));
+sqlDataFrame$TriggerType <- as.character(sqlDataFrame$TriggerType);
+sqlDataFrame$ObjectType <- as.character(sqlDataFrame$ObjectType);
+sqlDataFrame$TriggerDesc <- as.character(sqlDataFrame$TriggerDesc);
+sqlDataFrame$IsInsteadOfTrigger <- as.logical(as.character(sqlDataFrame$IsInsteadOfTrigger));
+sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdate)));
+sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
+sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
+sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
+rev(sqlDataFrame)[1:5];
+# rm()
+rm(xlsFile); rm(sqlDataFrame);
+```
+

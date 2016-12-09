@@ -556,6 +556,7 @@ sqlDataFrame$IsInsteadOfTrigger <- as.logical(as.character(sqlDataFrame$IsInstea
 sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdate)));
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
-sqlDataFrame$IsAfter <- as.logical(as.integer(as.character(sqlDataFrame$IsAfter)));
+sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
+rev(sqlDataFrame)[1:5];
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
