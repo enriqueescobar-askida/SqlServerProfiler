@@ -20,8 +20,8 @@ Second, show the session information under R.
 # namespace
 aNamespace <- "SqlServerProfiler";
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 # base lib
 gDriveUtil <- paste0(c("Lib/", aNamespace, ".Util.R"), sep = "", collapse = "");
 write(paste0(c("Load Util........\t", gDriveUtil), sep = "", collapse = ""), stdout());
@@ -143,7 +143,23 @@ serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
 serverDbSpec$DBIdentifier <- as.integer(as.character(serverDbSpec$DBIdentifier));
 serverDbSpec$DBName <- as.character(serverDbSpec$DBName);
 serverDbSpec$OriginalDBName <- as.character(serverDbSpec$OriginalDBName);
+#
+serverDbSpec$CompatiblityLevel <- as.integer(as.character(serverDbSpec$CompatiblityLevel));
+serverDbSpec$DBSize <- as.numeric(as.character(serverDbSpec$DBSize));
+serverDbSpec$DBGrowth <- as.numeric(as.character(serverDbSpec$DBGrowth));
+serverDbSpec$IsPercentGrowth <- as.logical(as.character(serverDbSpec$IsPercentGrowth));
+serverDbSpec$CreatedDate <- as.numeric(as.character(serverDbSpec$CreatedDate));
+#
+serverDbSpec$AutoShrink <- as.logical(as.character(serverDbSpec$AutoShrink));
+#
+serverDbSpec$IsAutoUpdate <- as.logical(as.character(serverDbSpec$IsAutoUpdate));
+serverDbSpec$IsArithAbort <- as.logical(as.character(serverDbSpec$IsArithAbort));
+serverDbSpec$PageVerifyOption <- as.character(serverDbSpec$PageVerifyOption);
+serverDbSpec$Collation <- as.character(serverDbSpec$Collation);
+serverDbSpec$FilePath <- as.character(serverDbSpec$FilePath);
+serverDbSpec$IdSourceDB <- as.integer(as.character(serverDbSpec$IdSourceDB));
 serverDbSpec;
+# rm
 rm(serverDbSpec);
 ```
 ## Server DB Backup

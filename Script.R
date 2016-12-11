@@ -1,6 +1,6 @@
 #setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-setwd("D:/Disk_X/axon/SqlServerProfiler");
-#setwd("E:/Disk_X/SqlServerProfiler/");
+#setwd("D:/Disk_X/axon/SqlServerProfiler");
+setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
@@ -73,6 +73,21 @@ serverDbSpec$ServiceName <- as.character(serverDbSpec$ServiceName);
 serverDbSpec$DBIdentifier <- as.integer(as.character(serverDbSpec$DBIdentifier))
 serverDbSpec$DBName <- as.character(serverDbSpec$DBName);
 serverDbSpec$OriginalDBName <- as.character(serverDbSpec$OriginalDBName);
+#
+serverDbSpec$CompatiblityLevel <- as.integer(as.character(serverDbSpec$CompatiblityLevel));
+serverDbSpec$DBSize <- as.numeric(as.character(serverDbSpec$DBSize));
+serverDbSpec$DBGrowth <- as.numeric(as.character(serverDbSpec$DBGrowth));
+serverDbSpec$IsPercentGrowth <- as.logical(as.character(serverDbSpec$IsPercentGrowth));
+serverDbSpec$CreatedDate <- as.numeric(as.character(serverDbSpec$CreatedDate));
+#
+serverDbSpec$AutoShrink <- as.logical(as.character(serverDbSpec$AutoShrink));
+#
+serverDbSpec$IsAutoUpdate <- as.logical(as.character(serverDbSpec$IsAutoUpdate));
+serverDbSpec$IsArithAbort <- as.logical(as.character(serverDbSpec$IsArithAbort));
+serverDbSpec$PageVerifyOption <- as.character(serverDbSpec$PageVerifyOption);
+serverDbSpec$Collation <- as.character(serverDbSpec$Collation);
+serverDbSpec$FilePath <- as.character(serverDbSpec$FilePath);
+serverDbSpec$IdSourceDB <- as.integer(as.character(serverDbSpec$IdSourceDB));
 head(serverDbSpec); rm(serverDbSpec);
 # Server DB Backup
 serverDbBackup <- XlsToDataFrame("Data/HYSEC-ServerDBBackup_list.xls");
