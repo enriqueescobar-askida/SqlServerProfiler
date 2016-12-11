@@ -132,7 +132,7 @@ rm(serverLinked);
 # Server DB
 Sql Server database analysis.
 
-## Server DB spec
+## Server DB Spec
 Sql Server instance database list.
 
 ```{r ServerDbSpec, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
@@ -779,7 +779,12 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-rev(sqlDataFrame)[1:5];
+sqlDataFrame;
+## Trigger Analysis List histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
+triggersHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Trigger per Table");
+triggersHistogram;
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 ```

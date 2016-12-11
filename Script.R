@@ -44,17 +44,24 @@ ScreenTxtFiles(fileList = txtFiles);
 # Server info
 serverInstance <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-SQLServerInstance.xls")$SQLServerInstance;
 serverInstance <- as.character(serverInstance);
+serverInstance;
 serverVersion <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-SQLServerVersion.xls")$SQLServerVersion;
 serverVersion <- as.character(serverVersion);
+serverVersion;
 serverService <- XlsToDataFrameSingleRow(xlsFile = "Data/HYSEC-ServiceInstance.xls")$ServiceInstance;
 serverService <- as.character(serverService);
+serverService;
+# rm
+rm(serverVersion); rm(serverService);
 # Server Running
 serverRunning <- XlsToDataFrame("Data/HYSEC-ServerRunning_list.xls");
 serverRunning$ServerName <- as.character(serverRunning$ServerName);
 serverRunning$ServiceName <- as.character(serverRunning$ServiceName);
 serverRunning$ServerStarted <- as.numeric(as.character(serverRunning$ServerStarted));
 serverRunning$DaysRunning <- as.numeric(as.character(serverRunning$DaysRunning));
-head(serverRunning); rm(serverRunning);
+serverRunning;
+# rm
+rm(serverRunning);
 # Server Linked
 serverLinked <- XlsToDataFrame("Data/HYSEC-ServerLinked_list.xls");
 serverLinked$ServerName <- as.character(serverLinked$ServerName);
@@ -65,7 +72,9 @@ serverLinked$Provider <- as.character(serverLinked$Provider);
 serverLinked$DataSource <- as.character(serverLinked$DataSource);
 serverLinked$ModificationDate <- as.numeric(as.character(serverLinked$ModificationDate));
 serverLinked$IsLinked <- as.logical(as.character(serverLinked$IsLinked));
-head(serverLinked); rm(serverLinked);
+serverLinked;
+# rm
+rm(serverLinked);
 # Server DB spec
 serverDbSpec <- XlsToDataFrame("Data/HYSEC-ServerDBSpec_list.xls");
 serverDbSpec$ServerName <- as.character(serverDbSpec$ServerName);
@@ -88,7 +97,8 @@ serverDbSpec$PageVerifyOption <- as.character(serverDbSpec$PageVerifyOption);
 serverDbSpec$Collation <- as.character(serverDbSpec$Collation);
 serverDbSpec$FilePath <- as.character(serverDbSpec$FilePath);
 serverDbSpec$IdSourceDB <- as.integer(as.character(serverDbSpec$IdSourceDB));
-head(serverDbSpec); rm(serverDbSpec);
+serverDbSpec;
+rm(serverDbSpec);
 # Server DB Backup
 serverDbBackup <- XlsToDataFrame("Data/HYSEC-ServerDBBackup_list.xls");
 serverDbBackup$ServerName <- as.character.Date(serverDbBackup$ServerName);
@@ -96,7 +106,8 @@ serverDbBackup$ServiceName <- as.character(serverDbBackup$ServiceName);
 serverDbBackup$DBName <- as.character(serverDbBackup$DBName);
 serverDbBackup$Backup_finish_date <- as.numeric(as.character(serverDbBackup$Backup_finish_date));
 serverDbBackup$Physical_Device_name <- as.character(serverDbBackup$Physical_Device_name);
-head(serverDbBackup); rm(serverDbBackup);
+serverDbBackup;
+rm(serverDbBackup);
 ## Server DB Usage
 # Server DB usage list
 xlsFile <- "Data/HYSEC-Usage_list.xls";
@@ -105,7 +116,7 @@ serverDbUsageList$DBIdentifier <- as.numeric(as.character(serverDbUsageList$DBId
 serverDbUsageList$DBName <- as.character(serverDbUsageList$DBName);
 serverDbUsageList$DBBufferPages <- as.numeric(as.character(serverDbUsageList$DBBufferPages));
 serverDbUsageList$DBBufferMB <- as.numeric(as.character(serverDbUsageList$DBBufferMB));
-head(serverDbUsageList);
+serverDbUsageList;
 # Server DB usage plots
 usagePlot <- DBUsageDataFrameToBarplot(serverDbUsageList);
 GgplotToPng(XlsFileToPng(xlsFile, serverInstance, "-Barplot"), usagePlot);
@@ -129,7 +140,8 @@ allParametersDataFrame$ParameterPrecision <- as.integer(as.character(allParamete
 allParametersDataFrame$ParamMaxBytes <- as.integer(as.character(allParametersDataFrame$ParamMaxBytes));
 allParametersDataFrame$ParameterScale <- as.integer(as.character(allParametersDataFrame$ParameterScale));
 allParametersDataFrame$IsParameterOutput <- as.logical(as.character(allParametersDataFrame$IsParameterOutput));
-head(allParametersDataFrame); rm(allParametersDataFrame);
+allParametersDataFrame;
+rm(allParametersDataFrame);
 ## DB Object
 # DB object list
 xlsFile <- "Data/HYSEC-Object_list.xls";
@@ -173,7 +185,8 @@ sqlDataFrame$ProcedureDesc <- as.character(sqlDataFrame$ProcedureDesc);
 sqlDataFrame$ProcedureCreated <- as.character(sqlDataFrame$ProcedureCreated);
 sqlDataFrame$ProcedureModified <- as.character(sqlDataFrame$ProcedureModified);
 sqlDataFrame$IsProcedureMSShipped <- as.logical(as.character(sqlDataFrame$IsProcedureMSShipped));
-head(sqlDataFrame); rm(sqlDataFrame);
+sqlDataFrame;
+rm(sqlDataFrame);
 # DB StoreProc param list
 xlsFile <- "Data/HYSEC-Procedure_listParams.xls";
 storedProcParamDataFrame <- XlsToDataFrame(xlsFile);
@@ -236,17 +249,17 @@ xlsFile <- "Data/HYSEC-RowCount_list.xls";
 tableRowCountDataFrame <- XlsToDataFrame(xlsFile);
 tableRowCountDataFrame$TableName <- as.character(tableRowCountDataFrame$TableName);
 tableRowCountDataFrame$TableRows <- as.integer(as.character(tableRowCountDataFrame$TableRows));
-print(head(tableRowCountDataFrame));
+print(tableRowCountDataFrame);
 # DB Table Count repeats
 tableRowCountDataFrame <- aggregate(list(RowRepeats = rep(1, nrow(tableRowCountDataFrame[-1]))),
                                     tableRowCountDataFrame[-1],
                                     length);
 tableRowCountDataFrame <- tibble::as_data_frame(tableRowCountDataFrame);
-print(head(tableRowCountDataFrame));
+print(tableRowCountDataFrame);
 # DB Table Count half > mean repeats
 aMean <- mean(tableRowCountDataFrame$RowRepeats);
 tableRowCountDataFrame <- subset(tableRowCountDataFrame, RowRepeats > aMean);
-print(head(tableRowCountDataFrame));
+print(tableRowCountDataFrame);
 # DB Table Count barplot
 tableRowCountBarplot <- DBRowCountFrameToBarplot(tableRowCountDataFrame);
 tableRowCountBarplot;
@@ -272,7 +285,7 @@ sqlDataFrame$TableModified <- as.numeric(as.character(sqlDataFrame$TableModified
 sqlDataFrame$MaxColumnIDUsed <- as.integer(as.character(sqlDataFrame$MaxColumnIDUsed));
 sqlDataFrame$IsUsingANSINulls <- as.logical(as.character(sqlDataFrame$IsUsingANSINulls));
 sqlDataFrame$LOBDataSpaceID <- as.integer(as.character(sqlDataFrame$LOBDataSpaceID));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Independent
@@ -288,7 +301,7 @@ sqlDataFrame$MaxColumnIDUsed <- as.integer(as.character(sqlDataFrame$MaxColumnID
 sqlDataFrame$IsUsingANSINulls <- as.logical(as.character(sqlDataFrame$IsUsingANSINulls));
 sqlDataFrame$LOBDataSpaceID <- as.integer(as.character(sqlDataFrame$LOBDataSpaceID));
 print(paste0("Table Independent list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Trunk
@@ -296,7 +309,7 @@ xlsFile <- "Data/HYSEC-TableTrunk_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
 sqlDataFrame$TableLeafName <- as.character(sqlDataFrame$TableTrunkName);
 print(paste0("Table Trunk list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Leaf
@@ -304,7 +317,7 @@ xlsFile <- "Data/HYSEC-TableLeaf_list.xls";
 sqlDataFrame <- XlsToDataFrame(xlsFile);
 sqlDataFrame$TableWoParentWoDependents <- as.character(sqlDataFrame$TableLeafName);
 print(paste0("Table Leaf list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis Parent
@@ -314,7 +327,7 @@ sqlDataFrame$TableParent <- as.character(sqlDataFrame$TableParent);
 sqlDataFrame$TableChild <- as.character(sqlDataFrame$TableChild);
 sqlDataFrame$FKName <- as.character(sqlDataFrame$FKName);
 print(paste0("Table Parent list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 # DB Table Analysis keys list
@@ -325,7 +338,7 @@ sqlDataFrame$PKName <- as.character(sqlDataFrame$PKName);
 sqlDataFrame$FKName <- as.character(sqlDataFrame$FKName);
 sqlDataFrame$ColumnName <- as.character(sqlDataFrame$ColumnName);
 print(paste0("Table Key list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 ## View Analysis
@@ -345,7 +358,7 @@ sqlDataFrame$ViewModified <- as.numeric(as.character(sqlDataFrame$ViewModified))
 sqlDataFrame$IsIndexed <- as.integer(as.character(sqlDataFrame$IsIndexed));
 sqlDataFrame$IsIndexable <- as.integer(as.character(sqlDataFrame$IsIndexable));
 print(paste0("View list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm()
 rm(countView); rm(xlsFile); rm(sqlDataFrame);
 ## Function Analysis
@@ -363,7 +376,7 @@ sqlDataFrame$FunctionDesc <- as.character(sqlDataFrame$FunctionDesc);
 sqlDataFrame$FunctionCreated <- as.numeric(as.character(sqlDataFrame$FunctionCreated)); #
 sqlDataFrame$FunctionModified <- as.numeric(as.character(sqlDataFrame$FunctionModified)); #
 print(paste0("Function list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # Function Analysis list barplot
 fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "FunctionType");
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), fnTypeBarplot);
@@ -388,12 +401,12 @@ functionParamsDataFrame$ParamMaxLength <- as.integer(as.character(functionParams
 functionParamsDataFrame$ParameterPrecision <- as.integer(as.character(functionParamsDataFrame$ParameterPrecision));
 functionParamsDataFrame$ParameterScale <- as.integer(as.character(functionParamsDataFrame$ParameterScale));
 functionParamsDataFrame$IsParamOutput <- as.logical(as.character(functionParamsDataFrame$IsParamOutput));
-print(head(functionParamsDataFrame));
+print(functionParamsDataFrame);
 fnParamsDataFrameSlim <- DataFrameFromColumns(functionParamsDataFrame,
                                               "FunctionName",
                                               "FunctionType",
                                               "FunctionDesc");
-print(head(fnParamsDataFrameSlim));
+print(fnParamsDataFrameSlim);
 # Function Analysis repeat count
 fnParamsDataFrameFat <- aggregate(list(NbParameters = rep(1, nrow(fnParamsDataFrameSlim))),
                                   fnParamsDataFrameSlim,
@@ -412,7 +425,7 @@ fnParamsDF <- DataFrameWithoutWithTotal(countFuncWithout,
                                         countFunc,
                                         OutputType);
 # Function Analysis param list export
-print(head(fnParamsDF));
+print(fnParamsDF);
 # Function Analysis barplot
 fnParamsBarplot <- FunctionWithoutWithTotalDFToBarplot(fnParamsDF, OutputType);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), fnParamsBarplot);
@@ -451,7 +464,7 @@ sqlDataFrame$PKCreated <- as.numeric(as.character(sqlDataFrame$PKCreated));
 sqlDataFrame$PKModified <- as.numeric(as.character(sqlDataFrame$PKModified));
 sqlDataFrame$PKOrdinal <- as.integer(as.character(sqlDataFrame$PKOrdinal));
 print(paste0("PKey list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # PKey Analysis list histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "PrincipalKeyTable");
@@ -480,7 +493,7 @@ sqlDataFrame$FKnotTrusted <- as.logical(as.character(sqlDataFrame$FKnotTrusted))
 sqlDataFrame$OnDelete <- as.character(sqlDataFrame$OnDelete);
 sqlDataFrame$OnUpdate <- as.character(sqlDataFrame$OnUpdate);
 print(paste0("FKeys list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # FKey Analysis list histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "PrincipalKeyTable");
@@ -508,7 +521,7 @@ sqlDataFrame$CreatedDate <- as.numeric(as.character(sqlDataFrame$CreatedDate));#
 sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinition);
 sqlDataFrame$UsesDBCollation <- as.logical(as.character(sqlDataFrame$UsesDBCollation));
 sqlDataFrame$IsSystemNamed <- as.logical(as.character(sqlDataFrame$IsSystemNamed));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # Index Analysis list histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "IndexPerTable");
@@ -530,7 +543,7 @@ sqlDataFrame$IndexType <- as.character(sqlDataFrame$IndexType);
 sqlDataFrame$ConstraintType <- as.character(sqlDataFrame$ConstraintType);
 sqlDataFrame$AllocUnitID <- as.numeric(as.character(sqlDataFrame$AllocUnitID));
 print(paste0("Index Type list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 # rm
 rm(xlsFile); rm(sqlDataFrame);
 ## Constraint Analysis
@@ -547,7 +560,7 @@ sqlDataFrame$ConstraintDescription <- as.character(sqlDataFrame$ConstraintDescri
 #
 sqlDataFrame$ConstraintDefinition <- as.character(sqlDataFrame$ConstraintDefinition);
 print(paste0("Constraint list count: ", nrow(sqlDataFrame)));
-print(head(sqlDataFrame));
+print(sqlDataFrame);
 sqlDataFrame <- ConstraintToTableNameFrequency(sqlDataFrame);
 constraintBarplot <- TwoColumnDataFrameToBarlot(sqlDataFrame);
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), constraintBarplot);
@@ -572,6 +585,20 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-rev(sqlDataFrame)[1:5];
+sqlDataFrame;
+## Trigger Analysis List histogram
+aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
+aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
+triggersHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Trigger per Table");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), triggersHistogram);
+## Trigger Analysis List barplot
+#fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "IsInsteadOfTrigger");
+#GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), fnTypeBarplot);
+## Trigger Analysis List piechart
+#fnTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "IsInsteadOfTrigger");
+#GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), fnTypePiechart);
+## Trigger Analysis List grid
+#grid.arrange(fnTypeBarplot, fnTypePiechart, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTibble); rm(triggersHistogram);

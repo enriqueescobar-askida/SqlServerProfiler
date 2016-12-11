@@ -47,7 +47,7 @@ TwoColumnDataFrameToHistogram <- function(aDataFrame = NULL, mainTitle = "") {
     names(aDataFrame)[2] <- "Y";
     # graph
     aHist <- ggplot(aDataFrame, aes(Y)) +
-      geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +
+      geom_histogram(colour = "grey60", fill = "lightblue", binwidth = 1, alpha = 0.5, position = "identity") +
       xlab(xTitle) +
       ylab(yTitle) +
       ggtitle(mainTitle) +
