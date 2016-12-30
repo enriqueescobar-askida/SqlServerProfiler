@@ -585,7 +585,16 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-sqlDataFrame;
+sqlDataFrame$TriggerGroup <- "_";
+for(i in sqlDataFrame$IsAfterTrigger){
+  print(i);
+  if(i) {
+    sqlDataFrame$TriggerGroup <- "AfterTrigger";
+  } else {
+    sqlDataFrame$TriggerGroup <- "InsteadOfTrigger";
+  }
+}
+sqlDataFrame[,10:16];
 ## Trigger Analysis List histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
