@@ -585,13 +585,14 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-sqlDataFrame$TriggerGroup <- "_";
-for(i in sqlDataFrame$IsAfterTrigger){
-  print(i);
-  if(i) {
-    sqlDataFrame$TriggerGroup <- "AfterTrigger";
+#trigger group
+sqlDataFrame$TriggerGroup <- NULL;
+for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
+  itIs <- as.logical(sqlDataFrame$IsAfterTrigger[i]);
+  if(itIs == TRUE){
+    sqlDataFrame$TriggerGroup[i] <- "AfterTrigger";
   } else {
-    sqlDataFrame$TriggerGroup <- "InsteadOfTrigger";
+    sqlDataFrame$TriggerGroup[i] <- "InsteadOfTrigger";
   }
 }
 sqlDataFrame[,10:16];
@@ -601,13 +602,14 @@ aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
 triggersHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Trigger per Table");
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), triggersHistogram);
 ## Trigger Analysis List barplot
-#fnTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "IsInsteadOfTrigger");
-#GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), fnTypeBarplot);
+triggerTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "TriggerGroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), triggerTypeBarplot);
 ## Trigger Analysis List piechart
-#fnTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "IsInsteadOfTrigger");
-#GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), fnTypePiechart);
+triggerTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "TriggerGroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), triggerTypePiechart);
 ## Trigger Analysis List grid
-#grid.arrange(fnTypeBarplot, fnTypePiechart, nrow = 1, ncol = 2);
+grid.arrange(triggerTypeBarplot, triggerTypePiechart, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 rm(aTable); rm(aTibble); rm(triggersHistogram);
+rm(triggerTypeBarplot); rm(triggerTypePiechart);

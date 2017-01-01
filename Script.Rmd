@@ -779,13 +779,31 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-sqlDataFrame;
+#trigger group
+sqlDataFrame$TriggerGroup <- "_";
+for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
+  itIs <- as.logical(sqlDataFrame$IsAfterTrigger[i]);
+  if(itIs == TRUE){
+    sqlDataFrame$TriggerGroup[i] <- "AfterTrigger";
+  } else {
+    sqlDataFrame$TriggerGroup[i] <- "InsteadOfTrigger";
+  }
+}
+sqlDataFrame[,10:16];
 ## Trigger Analysis List histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
 triggersHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Trigger per Table");
 triggersHistogram;
+## Trigger Analysis List barplot
+triggerTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "TriggerGroup");
+## Trigger Analysis List piechart
+triggerTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "TriggerGroup");
+## Trigger Analysis List grid
+grid.arrange(triggerTypeBarplot, triggerTypePiechart, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
+rm(aTable); rm(aTibble); rm(triggersHistogram);
+rm(triggerTypeBarplot); rm(triggerTypePiechart);
 ```
 
