@@ -779,17 +779,48 @@ sqlDataFrame$IsUpdate <- as.logical(as.integer(as.character(sqlDataFrame$IsUpdat
 sqlDataFrame$IsDelete <- as.logical(as.integer(as.character(sqlDataFrame$IsDelete)));
 sqlDataFrame$IsInsert <- as.logical(as.integer(as.character(sqlDataFrame$IsInsert)));
 sqlDataFrame$IsAfterTrigger <- as.logical(as.integer(as.character(sqlDataFrame$IsAfterTrigger)));
-#trigger group
-sqlDataFrame$TriggerGroup <- "_";
+### trigger group
+sqlDataFrame$TriggerGroup <- "";
 for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
   itIs <- as.logical(sqlDataFrame$IsAfterTrigger[i]);
+  
   if(itIs == TRUE){
     sqlDataFrame$TriggerGroup[i] <- "AfterTrigger";
   } else {
     sqlDataFrame$TriggerGroup[i] <- "InsteadOfTrigger";
   }
 }
-sqlDataFrame[,10:16];
+### trigger subgroup
+sqlDataFrame$TriggerSubgroup <- "";
+for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
+  itIs <- as.logical(sqlDataFrame$IsAfterTrigger[i]);
+  
+  if(itIs == TRUE){
+    sqlDataFrame$TriggerSubgroup[i] <- "After";
+  } else {
+    sqlDataFrame$TriggerSubgroup[i] <- "InsteadOf";
+  }
+  
+  isUpdate <- as.logical(sqlDataFrame$IsUpdate[i]);
+  
+  if(isUpdate == TRUE){
+    sqlDataFrame$TriggerSubgroup[i] <- paste0(sqlDataFrame$TriggerSubgroup[i], "Update");
+  }
+  
+  isDelete <- as.logical(sqlDataFrame$IsDelete[i]);
+  
+  if(isDelete == TRUE){
+    sqlDataFrame$TriggerSubgroup[i] <- paste0(sqlDataFrame$TriggerSubgroup[i], "Delete");
+  }
+  
+  isInsert <- as.logical(sqlDataFrame$IsInsert[i]);
+  
+  if(isInsert == TRUE){
+    sqlDataFrame$TriggerSubgroup[i] <- paste0(sqlDataFrame$TriggerSubgroup[i], "Insert");
+  }
+}
+### 
+sqlDataFrame[,10:17];
 ## Trigger Analysis List histogram
 aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName");
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
