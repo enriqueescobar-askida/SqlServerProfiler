@@ -596,6 +596,7 @@ for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
     sqlDataFrame$TriggerGroup[i] <- "InsteadOfTrigger";
   }
 }
+rm(i); rm(itIs) ;
 ### trigger subgroup
 sqlDataFrame$TriggerSubgroup <- "";
 for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
@@ -625,6 +626,8 @@ for(i in 1:length(sqlDataFrame$IsAfterTrigger)){
     sqlDataFrame$TriggerSubgroup[i] <- paste0(sqlDataFrame$TriggerSubgroup[i], "Insert");
   }
 }
+rm(i); rm(itIs) ;
+rm(isDelete); rm(isInsert); rm(isUpdate);
 ### 
 sqlDataFrame[,10:17];
 ## Trigger Analysis List histogram
@@ -632,15 +635,38 @@ aTable <- ColumnDataFrameToFrequencyTable(sqlDataFrame, columnName = "TableName"
 aTibble <- FrequencyTableToTibble(aTable, aTitle = "TriggerPerTable");
 triggersHistogram <- TwoColumnDataFrameToHistogram(aTibble, mainTitle = "Trigger per Table");
 GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Histogram"), triggersHistogram);
-## Trigger Analysis List barplot
-triggerTypeBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "TriggerGroup");
-GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), triggerTypeBarplot);
-## Trigger Analysis List piechart
-triggerTypePiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "TriggerGroup");
-GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), triggerTypePiechart);
-## Trigger Analysis List grid
-grid.arrange(triggerTypeBarplot, triggerTypePiechart, nrow = 1, ncol = 2);
+## Trigger Group Analysis List barplot
+triggerGroupBarplot <- DataFrameColumnToBarplot(sqlDataFrame, columnName = "TriggerGroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot"), triggerGroupBarplot);
+## Trigger Group Analysis List piechart
+triggerGroupPiechart <- DataFrameColumnToPiechart(sqlDataFrame, columnName = "TriggerGroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart"), triggerGroupPiechart);
+## Trigger Group Analysis List grid
+grid.arrange(triggerGroupBarplot, triggerGroupPiechart, nrow = 1, ncol = 2);
+# Trigger Subgroup After
+## Trigger Sub Group After Analysis List barplot
+triggerSubgroupBarplot <- DataFrameColumnToBarplot(sqlDataFrame[grepl("^After", sqlDataFrame$TriggerSubgroup), ],
+                                                   columnName = "TriggerSubgroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot-SubgroupAfter"), triggerSubgroupBarplot);
+## Trigger Sub Group After Analysis List piechart
+triggerSubgroupPiechart <- DataFrameColumnToPiechart(sqlDataFrame[grepl("^After", sqlDataFrame$TriggerSubgroup), ],
+                                                   columnName = "TriggerSubgroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart-SubgroupAfter"), triggerSubgroupPiechart);
+## Trigger Sub Group After Analysis List grid
+grid.arrange(triggerSubgroupBarplot, triggerSubgroupPiechart, nrow = 1, ncol = 2);
+# Trigger Subgroup InsteadOf
+## Trigger Sub Group InsteadOf Analysis List barplot
+triggerSubgroupBarplot <- DataFrameColumnToBarplot(sqlDataFrame[!grepl("^After", sqlDataFrame$TriggerSubgroup), ],
+                                                   columnName = "TriggerSubgroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Barplot-SubgroupInsteadOf"), triggerSubgroupBarplot);
+## Trigger Sub Group InsteadOf Analysis List piechart
+triggerSubgroupPiechart <- DataFrameColumnToPiechart(sqlDataFrame[!grepl("^After", sqlDataFrame$TriggerSubgroup), ],
+                                                     columnName = "TriggerSubgroup");
+GgplotToPng(XlsFileToPng(xlsFile, "HYSEC", "-Piechart-SubgroupInsteadOf"), triggerSubgroupPiechart);
+## Trigger Sub Group InsteadOf Analysis List grid
+grid.arrange(triggerSubgroupBarplot, triggerSubgroupPiechart, nrow = 1, ncol = 2);
 # rm()
 rm(xlsFile); rm(sqlDataFrame);
 rm(aTable); rm(aTibble); rm(triggersHistogram);
-rm(triggerTypeBarplot); rm(triggerTypePiechart);
+rm(triggerGroupBarplot); rm(triggerGroupPiechart);
+rm(triggerSubgroupBarplot); rm(triggerSubgroupPiechart);
