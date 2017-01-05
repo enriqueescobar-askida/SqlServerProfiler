@@ -1,3 +1,5 @@
+options(scipen = 100);
+#options(digits = 3);
 #' Title  ColumnDataFrameToFrequencyTable
 #'
 #' @param aDataFrame 
