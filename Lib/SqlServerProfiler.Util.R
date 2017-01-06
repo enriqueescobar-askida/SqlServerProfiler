@@ -132,3 +132,5 @@ source(myLibrary);
 myLibrary <- "Lib/xlsx.Util.R";
 write(paste0(c("Load Util........\t", myLibrary), sep = "", collapse = ""), stdout());
 source(myLibrary);
+### rm
+rm(myLibrary);
