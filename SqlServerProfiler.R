@@ -1,6 +1,3 @@
-#setwd("C:\\Users\\Admin\\Desktop"); #USERPROFILE
-#setwd("D:/Disk_X/axon/SqlServerProfiler");
-setwd("E:/Disk_X/SqlServerProfiler/");
 source("Lib/SqlServerProfiler.Util.R");
 # fileList0 <- list("Data/00 Scripts start.new.xls");
 # fileList1 <- list("Data/01 Agent Niveau 1 - Evelyne made mistake and logged out.new.xls");
